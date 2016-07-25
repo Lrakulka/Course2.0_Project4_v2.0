@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
 
 import java.util.Set;
 
@@ -22,16 +21,17 @@ public class Bill {
     @Column(name = "id", nullable = false, unique = true, columnDefinition = "UNSIGNED INT(10)")
     private Integer id;
 
-    @Column(name = "active", nullable = false)
-    @Type(type = "yes_no")
-    private Boolean active;
-
-    @Column(name = "deleted", nullable = false)
-    @Type(type = "yes_no")
-    private Boolean deleted;
+    @Column(name = "name", nullable = false, unique = true, length = 45)
+    private String name;
 
     @Column(name = "score", nullable = false)
     private Double score;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
+    @Column(name = "deleted", nullable = false)
+    private Boolean deleted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -24,25 +23,23 @@ public class User {
     @Column(name = "email", unique = true, nullable = false, length = 45)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 60)
-    private String password;
-
     @Column(name = "first_name", nullable = false, length = 45)
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 45)
     private String lastName;
 
+    @Column(name = "password", nullable = false, length = 60)
+    private String password;
+
     @Column(name = "active", nullable = false)
-    @Type(type="yes_no")
     private Boolean active;
 
     @Column(name = "deleted", nullable = false)
-    @Type(type="yes_no")
     private Boolean deleted;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Set<ActorRole> actorRoles;
+    private Set<UserRole> userRoles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Bill> bills;
