@@ -37,6 +37,6 @@ public class Bill {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bill")
+    @OneToMany(mappedBy = "bill")
     private Set<Card> cards;
 }

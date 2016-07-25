@@ -41,6 +41,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<UserRole> userRoles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private Set<Bill> bills;
 }
