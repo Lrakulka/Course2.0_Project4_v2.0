@@ -9,12 +9,11 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-
     <spring.version>4.0.6.RELEASE</spring.version>
     <hibernate.version>4.3.6.Final</hibernate.version>
     <mysql.version>5.1.31</mysql.version>
     <spring.security.version>4.1.0.RELEASE</spring.security.version>
-    <c3p0.version>3.6.3.Final</c3p0.version>
+    <c3p0.version>0.9.1.2</c3p0.version>
     <log4j.version>1.2.17</log4j.version>
     <junit.version>4.12</junit.version>
     <jstl.version>1.2</jstl.version>
@@ -101,12 +100,21 @@
       <version>${mysql.version}</version>
     </dependency>
 
+    <!-- C3P0 -->
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>${c3p0.version}</version>
+    </dependency>
+
+    <!-- Log4j -->
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>${log4j.version}</version>
     </dependency>
 
+    <!-- JUnit -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
