@@ -1,5 +1,6 @@
 package com.epam.model.dto;
 
+import com.epam.model.dto.validator.ValidEmail;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +21,10 @@ import javax.validation.constraints.*;
 public class UserLoginDTO {
     @NotNull
     @Size(min = 1)
+    @ValidEmail
     private String email;
 
     @NotNull
-    @Size(min = 1)
+    @Size(min = 3, message = "Password to short")
     private String password;
 }
