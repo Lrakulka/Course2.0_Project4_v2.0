@@ -16,13 +16,13 @@ import javax.persistence.*;
 public class UserRole {
     @Id
     @GeneratedValue
-    @Column(name = "id", unique = true, nullable = false, columnDefinition = "UNSIGNED INT(10)")
+    @Column(name = "id", unique = true, nullable = false, columnDefinition = "INT UNSIGNED")
     private Integer id;
 
     @Column(name = "role", nullable = false, length = 10)
     private String role;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", columnDefinition = "INT UNSIGNED", nullable = false)
     @ManyToOne
     private User user;
 }

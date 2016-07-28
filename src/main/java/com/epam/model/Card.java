@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Card {
     @Id
     @GeneratedValue
-    @Column(name = "id", unique = true, nullable = false, columnDefinition = "UNSIGNED INT(10)")
+    @Column(name = "id", unique = true, nullable = false, columnDefinition = "INT UNSIGNED")
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 45)
@@ -25,13 +25,13 @@ public class Card {
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean active;
 
-    @Column(name = "deleted", nullable = false)
+    @Column(name = "deleted", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean deleted;
 
     @ManyToOne
-    @JoinColumn(name = "id_bill")
+    @JoinColumn(name = "id_bill", columnDefinition = "INT UNSIGNED", nullable = false)
     private Bill bill;
 }

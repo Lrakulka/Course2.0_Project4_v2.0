@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"id", "email"})
@@ -17,7 +17,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue
-    @Column(name = "id", unique = true, nullable = false, columnDefinition = "UNSIGNED INT(10)")
+    @Column(name = "id", unique = true, nullable = false, columnDefinition = "INT UNSIGNED")
     private Integer id;
 
     @Column(name = "email", unique = true, nullable = false, length = 45)
@@ -32,11 +32,8 @@ public class User {
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean active;
-
-    @Column(name = "deleted", nullable = false)
-    private Boolean deleted;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<UserRole> userRoles;

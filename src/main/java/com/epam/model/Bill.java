@@ -17,7 +17,7 @@ import java.util.Set;
 public class Bill {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false, unique = true, columnDefinition = "UNSIGNED INT(10)")
+    @Column(name = "id", nullable = false, unique = true, columnDefinition = "INT UNSIGNED")
     private Integer id;
 
     @Column(name = "name", nullable = false, unique = true, length = 45)
@@ -26,10 +26,10 @@ public class Bill {
     @Column(name = "score", nullable = false)
     private Double score;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean active;
 
-    @Column(name = "deleted", nullable = false)
+    @Column(name = "deleted", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean deleted;
 
     @ManyToOne
