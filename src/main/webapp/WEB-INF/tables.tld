@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>clientTable</short-name>
+    <uri>/WEB-INF/tables</uri>
+    <info>My table tag library</info>
+    <tag>
+        <name>clientTable</name>
+        <tag-class>com.homework.tag.ClientsTable</tag-class>
+        <body-content>empty</body-content>
+        <info>Custom tag displays a table of client information</info>
+        <attribute>
+            <name>clients</name>
+            <required>true</required>
+            <description>Provide a clients data</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>buttonInfo</name>
+            <required>true</required>
+            <description>Provide a localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>textBlocked</name>
+            <required>true</required>
+            <description>Msg if Blocked</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>textUnBlocked</name>
+            <required>true</required>
+            <description>Msg if un blocked</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>parameterName</name>
+            <required>true</required>
+            <description>Provide csrf protection</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>token</name>
+            <required>true</required>
+            <description>Provide csrf protection</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>cardTable</name>
+        <tag-class>com.homework.tag.CardsTable</tag-class>
+        <body-content>empty</body-content>
+        <info>Custom tag displays a table of client cards information</info>
+        <attribute>
+            <name>cards</name>
+            <required>true</required>
+            <description>Provide a client cards data</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>buttonFillInfo</name>
+            <required>true</required>
+            <description>Provide a localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>buttonMakePaymentInfo</name>
+            <required>true</required>
+            <description>Provide a localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>buttonBlockInfo</name>
+            <required>true</required>
+            <description>Provide a localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>textBlocked</name>
+            <required>true</required>
+            <description>Msg if Blocked</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>textUnBlocked</name>
+            <required>true</required>
+            <description>Msg if un blocked</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>parameterName</name>
+            <required>true</required>
+            <description>Provide csrf protection</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>token</name>
+            <required>true</required>
+            <description>Provide csrf protection</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>
