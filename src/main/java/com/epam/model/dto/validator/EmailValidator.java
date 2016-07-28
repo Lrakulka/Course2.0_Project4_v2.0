@@ -5,8 +5,8 @@ import org.springframework.core.env.Environment;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by fg on 7/27/2016.
