@@ -2,7 +2,6 @@ package com.epam.service;
 
 import com.epam.model.User;
 import com.epam.model.UserRole;
-import com.epam.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,15 +25,15 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImp implements UserDetailsService {
     private static final Logger logger = Logger.getLogger(UserDetailsServiceImp.class);
 
-    @Autowired(required = true)
-    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(final String userEmail)
             throws UsernameNotFoundException {
         logger.info(new StringBuilder("Entering name=").
                 append(userEmail));
-        User user = userRepository.findByEmail(userEmail);
+        User user = userService.findByEmail(userEmail);
         List<GrantedAuthority> authorities = buildActorAuthority(user.getUserRoles());
         logger.info(new StringBuilder("Leaving actorName=").
                 append(user.getEmail().charAt(0)).
