@@ -6,10 +6,10 @@ INSERT INTO `user` (`id`, `email`, `password`, `active`, `first_name`, `last_nam
 
 INSERT  INTO `user_role` (`id`, `role`, `user_id`) VALUES
   (1, 'ROLE_ADMIN', 1),
-  (2, 'ROLE_USER', 1),
-  (3, 'ROLE_USER', 2),
-  (4, 'ROLE_USER', 3),
-  (5, 'ROLE_USER', 4);
+  (2, 'ROLE_CLIENT', 1),
+  (3, 'ROLE_CLIENT', 2),
+  (4, 'ROLE_CLIENT', 3),
+  (5, 'ROLE_CLIENT', 4);
 
 INSERT INTO `bill` (`id`, `active`, `deleted`, `name`, `score`, `user_id`) VALUES
   (1, 1, 0, 'bill1', 200, 1),
