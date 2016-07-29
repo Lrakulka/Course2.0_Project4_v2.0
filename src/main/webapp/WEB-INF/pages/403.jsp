@@ -4,6 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <body>
+	<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
 	<h1><spring:message code="403.label.title" /></h1>
 
 	<c:choose>

@@ -11,7 +11,7 @@
 <body>
 <h2><spring:message code="welcome.label.text" /></h2>
 <h3><spring:message code="welcome.label.avalible" /></h3>
-<p><a href="/Project_4/admin"><spring:message code="welcome.label.admin_room" /></a></p>
-<a href="/Project_4/client"><spring:message code="welcome.label.client_room" /></a>
+<p><a href="/admin"><spring:message code="welcome.label.admin_room" /></a></p>
+<a href="/client"><spring:message code="welcome.label.client_room" /></a>
 </body>
 </html>
