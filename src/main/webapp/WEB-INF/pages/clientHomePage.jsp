@@ -25,7 +25,7 @@
 		<c:if test="${not empty msg}">
 			<div style="color:red"><spring:message code="client.label.msg" /></div>
 		</c:if>
-		<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<c:url value="/logout" var="logoutUrl" />
 		<!-- csrt for log out-->
 		<form action="${logoutUrl}" method="post" id="logoutForm">
 		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
