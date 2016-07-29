@@ -39,6 +39,7 @@
 </style>
 </head>
 <body onload='document.loginForm.username.focus();'>
+	<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
 
 	<div id="login-box">
 
@@ -51,8 +52,7 @@
 			<div class="msg"><spring:message code="login.label.msg" /></div>
 		</c:if>
 
-		<form name='loginForm'
-			action="<c:url value='/j_spring_security_check' />" method='POST'>
+		<form name='loginForm' action="<c:url value='/login' />" method='POST'>
 
 			<table>
 				<tr>

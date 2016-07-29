@@ -1,7 +1,7 @@
 package com.epam.configuration.initializer;
 
 import com.epam.configuration.AppConfig;
-import com.epam.configuration.HibernateConfiguration;
+import com.epam.configuration.DatabaseConfiguration;
 import com.epam.configuration.SpringSecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -12,7 +12,7 @@ public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServ
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {AppConfig.class, HibernateConfiguration.class, SpringSecurityConfig.class};
+		return new Class[] {AppConfig.class, DatabaseConfiguration.class, SpringSecurityConfig.class};
 	}
 
 	@Override

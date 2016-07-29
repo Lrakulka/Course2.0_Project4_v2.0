@@ -23,6 +23,10 @@ import java.util.Locale;
 @ComponentScan({ "com.epam.*" })
 public class AppConfig extends WebMvcConfigurerAdapter {
 
+    /**
+     * Mapping of the pages.
+     * @return resolver of application pages.
+     */
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -31,6 +35,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
+    /**
+     * Responsible for loading the messages property files.
+     * @return source of the messages
+     */
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -39,6 +47,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
+    /**
+     * Writes the locale setting to a cookie.
+     */
     @Bean
     public LocaleResolver localeResolver(){
         CookieLocaleResolver resolver = new CookieLocaleResolver();
@@ -48,6 +59,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
+    /**
+     * Allows to change the current locale on every request via a configurable request parameter.
+     */
     @Bean
     public LocaleChangeInterceptor localeInterceptor(){
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
