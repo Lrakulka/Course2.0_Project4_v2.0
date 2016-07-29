@@ -36,6 +36,6 @@ public class Bill {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "bill")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill")
     private Set<Card> cards;
 }
