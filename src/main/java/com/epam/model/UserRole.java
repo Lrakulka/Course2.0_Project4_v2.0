@@ -19,7 +19,7 @@ public class UserRole {
     @Column(name = "id", unique = true, nullable = false, columnDefinition = "INT UNSIGNED")
     private Integer id;
 
-    @Column(name = "role", nullable = false, length = 10)
+    @Column(name = "role", nullable = false, length = 11)
     private String role;
 
     @JoinColumn(name = "user_id", columnDefinition = "INT UNSIGNED", nullable = false)
