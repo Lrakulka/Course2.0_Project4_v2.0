@@ -1,43 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ page session="true"%>
+
+<!DOCTYPE html>
 <html>
 	<head>
 		<title><spring:message code="login.label.title" /></title>
+		<style>
+			<%@ include file="../css/styles.css" %>
+		</style>
 	</head>
-	<style>
-		.error {
-			padding: 15px;
-			margin-bottom: 20px;
-			border: 1px solid transparent;
-			border-radius: 4px;
-			color: #a94442;
-			background-color: #f2dede;
-			border-color: #ebccd1;
-		}
 
-		.msg {
-			padding: 15px;
-			margin-bottom: 20px;
-			border: 1px solid transparent;
-			border-radius: 4px;
-			color: #31708f;
-			background-color: #d9edf7;
-			border-color: #bce8f1;
-		}
-
-		#login-box {
-			width: 300px;
-			padding: 20px;
-			margin: 100px auto;
-			background: #fff;
-			-webkit-border-radius: 2px;
-			-moz-border-radius: 2px;
-			border: 1px solid #000;
-		}
-	</style>
-</head>
 	<body onload='document.loginForm.username.focus();'>
 		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
 
@@ -69,8 +42,7 @@
 					</tr>
 				</table>
 
-				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" />
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 			</form>
 		</div>

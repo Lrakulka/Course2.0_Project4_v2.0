@@ -1,13 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tables" uri="/WEB-INF/tables.tld"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><spring:message code="client.label.title" /></title>
+		<style>
+			<%@ include file="../css/styles.css" %>
+		</style>
 	</head>
 	<body>
 		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
@@ -16,15 +19,20 @@
 		<spring:message code="client.button.pay" var="pay" />
 		<spring:message code="client.label.blocked" var="blocked" />
 		<spring:message code="client.label.unblocked" var="unblocked" />
-		<tables:cardTable buttonFillInfo="${fill}"
-		buttonBlockInfo="${block}"
-		buttonMakePaymentInfo="${pay}" cards="${cards}"
-		textBlocked="${blocked}"
-		textUnBlocked="${unblocked}"
-		parameterName="${_csrf.parameterName}" token="${_csrf.token}"/>
+
+		<tables:clientTable bills="${bills}"
+							buttonFillInfo="${fill}"
+							buttonBlockInfo="${block}"
+							buttonMakePaymentInfo="${pay}"
+							textBlocked="${blocked}"
+							textUnBlocked="${unblocked}"
+							parameterName="${_csrf.parameterName}"
+							token="${_csrf.token}"
+		/>
 		<c:if test="${not empty msg}">
 			<div style="color:red"><spring:message code="client.label.msg" /></div>
 		</c:if>
+
 		<c:url value="/logout" var="logoutUrl" />
 		<!-- csrt for log out-->
 		<form action="${logoutUrl}" method="post" id="logoutForm">
