@@ -33,7 +33,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
             throws UsernameNotFoundException {
         logger.info(new StringBuilder("Entering name=").
                 append(userEmail));
-        User user = userService.findByEmail(userEmail);
+        User user = userService.initByEmail(userEmail);
         List<GrantedAuthority> authorities = buildActorAuthority(user.getUserRoles());
         logger.info(new StringBuilder("Leaving actorName=").
                 append(user.getEmail().charAt(0)).
