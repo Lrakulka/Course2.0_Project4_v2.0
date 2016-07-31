@@ -2,25 +2,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tables" uri="/WEB-INF/tables.tld"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><spring:message code="admin.label.title" /></title>
+        <style>
+            <%@ include file="../css/styles.css" %>
+        </style>
 	</head>
 	<body>
 		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
 		<spring:message code="admin.button.unblock" var="unblock" />
+		<spring:message code="admin.button.block" var="block" />
+        <spring:message code="admin.button.undelete" var="undelete" />
+        <spring:message code="admin.button.delete" var="delete" />
 		<spring:message code="admin.label.blocked" var="blocked" />
 		<spring:message code="admin.label.unblocked" var="unblocked" />
-		<tables:clientTable clients="${clients}"
-			buttonInfo="${unblock}"
-			textBlocked="${blocked}"
-			textUnBlocked="${unblocked}"
-		parameterName="${_csrf.parameterName}" token="${_csrf.token}" />
+        <spring:message code="admin.label.deleted" var="deleted" />
+		<tables:clientsTable clients="${clients}"
+                             deleteButtonInfo="${delete}"
+                             unDeleteButtonInfo="${undelete}"
+							 blockButtonInfo="${block}"
+							 unBlockButtonInfo="${unblock}"
+							 textBlocked="${blocked}"
+							 textUnBlocked="${unblocked}"
+                             textDeleted = "${deleted}"
+							 parameterName="${_csrf.parameterName}"
+							 token="${_csrf.token}"
+		/>
 		<c:if test="${not empty msg}">
 			<div style="color:red"><spring:message code="admin.label.msg" /></div>
 		</c:if>
+
 		<c:url value="/logout" var="logoutUrl" />
 		<!-- csrt for log out-->
 		<form action="${logoutUrl}" method="post" id="logoutForm">

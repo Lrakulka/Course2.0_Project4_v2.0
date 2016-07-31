@@ -22,7 +22,7 @@ public class UserRepositoryImp extends AbstractRepository<User> implements UserR
 
     @Override
     public List<User> findAll() {
-        return super.findAll("id");
+        return super.findAll("lastName");
     }
 
     @Override
@@ -33,5 +33,11 @@ public class UserRepositoryImp extends AbstractRepository<User> implements UserR
     @Override
     public User findByEmail(final String email) {
         return super.findByProperty("email", email);
+    }
+
+    @Override
+    public List<User> getAllUnDeletedClients() {
+        // TODO: realization for method
+        return null;
     }
 }

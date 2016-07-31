@@ -34,4 +34,7 @@ public class BillRepositoryImp extends AbstractRepository<Bill> implements BillR
     public Bill findByName(final String name) {
         return super.findByProperty("name", name);
     }
+
+    @Override
+    public void update(Bill bill) { super.update(bill);}
 }

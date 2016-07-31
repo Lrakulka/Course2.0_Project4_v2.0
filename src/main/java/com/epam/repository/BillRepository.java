@@ -16,4 +16,6 @@ public interface BillRepository {
     Bill findById(final int billId);
 
     Bill findByName(final String name);
+
+    void update(Bill bill);
 }

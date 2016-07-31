@@ -1,7 +1,8 @@
 package com.epam.service;
 
-import com.epam.controller.MainController;
-import org.apache.log4j.Logger;
+import com.epam.model.Bill;
+import com.epam.repository.BillRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,5 +13,54 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class BillServiceImp implements BillService {
-    private static final Logger logger = Logger.getLogger(BillServiceImp.class);
+
+    @Autowired
+    private BillRepository billRepository;
+
+    private static final String DELETE = "delete";
+    private static final String UN_DELETE = "undelete";
+    private static final String BLOCK = "block";
+    private static final String UN_BLOCK = "unblock";
+    @Override
+    public void doAction(String actionAndBillId) {
+        int billId = Integer.valueOf(actionAndBillId.substring(0, actionAndBillId.indexOf("+")));
+        actionAndBillId = actionAndBillId.substring(actionAndBillId.indexOf("+") + 1, actionAndBillId.length());
+        switch (actionAndBillId) {
+            case DELETE : deleteBill(billId);
+                    break;
+            case UN_DELETE : restoreBill(billId);
+                    break;
+            case BLOCK : blockBill(billId);
+                    break;
+            case UN_BLOCK : unBlockBill(billId);
+        }
+    }
+
+    @Override
+    public void blockBill(int billId) {
+        Bill bill = billRepository.findById(billId);
+        bill.setActive(false);
+        billRepository.update(bill);
+    }
+
+    @Override
+    public void unBlockBill(int billId) {
+        Bill bill = billRepository.findById(billId);
+        bill.setActive(true);
+        billRepository.update(bill);
+    }
+
+    @Override
+    public void restoreBill(int billId) {
+        Bill bill = billRepository.findById(billId);
+        bill.setDeleted(false);
+        billRepository.update(bill);
+    }
+
+    @Override
+    public void deleteBill(int billId) {
+        Bill bill = billRepository.findById(billId);
+        bill.setDeleted(true);
+        billRepository.update(bill);
+    }
 }

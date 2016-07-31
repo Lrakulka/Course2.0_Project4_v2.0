@@ -23,7 +23,31 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <name>buttonInfo</name>
+            <name>deleteButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>unDeleteButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>textDeleted</name>
+            <required>true</required>
+            <description>Provide the localization for deleted bills</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>blockButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>unBlockButtonInfo</name>
             <required>true</required>
             <description>Provide the localization for button message</description>
             <rtexprvalue>true</rtexprvalue>
@@ -60,7 +84,7 @@
         <body-content>empty</body-content>
         <description>Custom tag displays a table of client cards information</description>
         <attribute>
-            <name>cards</name>
+            <name>bills</name>
             <required>true</required>
             <description>Provides information about client</description>
             <rtexprvalue>true</rtexprvalue>
