@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -52,6 +53,7 @@ public abstract class AbstractRepository<T> {
     }
 
     protected Criteria getCriteria() {
-        return sessionFactory.getCurrentSession().createCriteria(clazz);
-    }
+        return sessionFactory.getCurrentSession().createCriteria(clazz)
+                .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+}
 }
