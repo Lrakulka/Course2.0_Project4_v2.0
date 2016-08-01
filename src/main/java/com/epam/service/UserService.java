@@ -17,4 +17,6 @@ public interface UserService {
     List<User> getAll();
 
     List<User> getAllClients();
+
+    List<User> getAllClientsWithBills();
 }

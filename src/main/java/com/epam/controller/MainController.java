@@ -88,7 +88,7 @@ public class MainController {
     public ModelAndView adminHomePage() {
         ModelAndView model = new ModelAndView();
         model.setViewName("adminHomePage");
-        model.addObject("clients", userService.getAllClients());
+        model.addObject("clients", userService.getAllClientsWithBills());
         return model;
     }
 

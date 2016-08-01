@@ -1,6 +1,7 @@
 package com.epam.repository;
 
 import com.epam.model.User;
+import com.epam.model.UserRole;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -35,5 +36,14 @@ public class UserRepositoryImp extends AbstractRepository<User> implements UserR
     @Override
     public User findByEmail(final String email) {
         return super.findByProperty("email", email);
+    }
+
+    private static final UserRole client = new UserRole();
+    @Override
+    public List<User> getAllClients() {
+        Criteria criteria = getCriteria();
+        return criteria.createAlias("userRoles", "u")
+                .add( Restrictions.eq("u.role", "ROLE_CLIENT") )
+                .list();
     }
 }

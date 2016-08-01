@@ -5,6 +5,7 @@ import com.epam.model.User;
 import com.epam.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> getAllClients() {
-        List<User> users = getAll();
+        return userRepository.getAllClients();
+    }
+
+    @Override
+    public List<User> getAllClientsWithBills() {
+        List<User> users = getAllClients();
         users.forEach(user -> {
             Iterator<Bill> iterator = user.getBills().iterator();
             iterator.forEachRemaining(bill -> {
