@@ -16,7 +16,7 @@
         <h2><spring:message code="welcome.label.text" /></h2>
         <h3><spring:message code="welcome.label.available" /></h3>
         <p><a href="/admin"><spring:message code="welcome.label.admin_room" /></a></p>
-        <a href="/client"><spring:message code="welcome.label.client_room" /></a>
+        <p><a href="/client"><spring:message code="welcome.label.client_room" /></a><p>
 
         <c:url value="/logout" var="logoutUrl" />
         <!-- csrt for log out-->

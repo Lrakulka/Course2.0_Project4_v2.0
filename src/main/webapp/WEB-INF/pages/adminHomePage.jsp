@@ -14,10 +14,10 @@
 	</head>
 	<body>
 		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
-		<spring:message code="admin.button.unblock" var="unblock" />
-		<spring:message code="admin.button.block" var="block" />
-        <spring:message code="admin.button.undelete" var="undelete" />
-        <spring:message code="admin.button.delete" var="delete" />
+		<spring:message code="button.unblock" var="unblock" />
+		<spring:message code="button.block" var="block" />
+        <spring:message code="button.undelete" var="undelete" />
+        <spring:message code="button.delete" var="delete" />
 		<spring:message code="admin.label.blocked" var="blocked" />
 		<spring:message code="admin.label.unblocked" var="unblocked" />
         <spring:message code="admin.label.deleted" var="deleted" />
@@ -55,6 +55,6 @@
 					href="javascript:formSubmit()"><spring:message code="admin.label.logout" /></a>
 			</h2>
 		</c:if>
-
+        <a href="/welcome"><spring:message code="label.welcom_room" /></a>
 	</body>
 </html>
