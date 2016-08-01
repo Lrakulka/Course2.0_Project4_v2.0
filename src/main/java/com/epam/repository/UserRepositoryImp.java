@@ -1,6 +1,8 @@
 package com.epam.repository;
 
 import com.epam.model.User;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,11 +35,5 @@ public class UserRepositoryImp extends AbstractRepository<User> implements UserR
     @Override
     public User findByEmail(final String email) {
         return super.findByProperty("email", email);
-    }
-
-    @Override
-    public List<User> getAllUnDeletedClients() {
-        // TODO: realization for method
-        return null;
     }
 }

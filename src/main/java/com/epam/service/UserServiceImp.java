@@ -1,5 +1,6 @@
 package com.epam.service;
 
+import com.epam.model.Bill;
 import com.epam.model.User;
 import com.epam.repository.UserRepository;
 import org.apache.log4j.Logger;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by fg on 7/27/2016.
@@ -40,7 +43,16 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getAllUnDeletedClients() {
-        return userRepository.getAllUnDeletedClients();
+    public List<User> getAllClients() {
+        List<User> users = getAll();
+        users.forEach(user -> {
+            Iterator<Bill> iterator = user.getBills().iterator();
+            iterator.forEachRemaining(bill -> {
+                if (bill.getDeleted()) {
+                    iterator.remove();
+                }
+            });
+        });
+        return users;
     }
 }

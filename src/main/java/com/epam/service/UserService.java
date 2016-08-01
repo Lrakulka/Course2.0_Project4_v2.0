@@ -16,5 +16,5 @@ public interface UserService {
 
     List<User> getAll();
 
-    List<User> getAllUnDeletedClients();
+    List<User> getAllClients();
 }

@@ -15,6 +15,4 @@ public interface UserRepository {
     User findById(final int userId);
 
     User findByEmail(final String email);
-
-    List<User> getAllUnDeletedClients();
 }

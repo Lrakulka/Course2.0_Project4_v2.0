@@ -1,29 +1,18 @@
 package com.epam.controller;
 
-import com.epam.model.Bill;
-import com.epam.model.Card;
 import com.epam.model.User;
 import com.epam.service.BillService;
 import com.epam.service.CardService;
 import com.epam.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by fg on 7/27/2016.
@@ -99,23 +88,7 @@ public class MainController {
     public ModelAndView adminHomePage() {
         ModelAndView model = new ModelAndView();
         model.setViewName("adminHomePage");
-        model.addObject("clients", userService.getAll()); //userService.getAllUnDeletedClients());
-        return model;
-    }
-
-    /**
-     * /**
-     * Prepare client room page.
-     * @param principal - data about user
-     * @return model of client room
-     */
-    @RequestMapping(value = "/client**", method = RequestMethod.GET)
-    public ModelAndView clientHomePage(Principal principal) {
-        User user = userService.findByEmail(principal.getName());
-        ModelAndView model = new ModelAndView();
-        model.setViewName("clientHomePage");
-        List<Card> cardList = new ArrayList(new ArrayList<Bill>(user.getBills()).get(0).getCards());
-        model.addObject("cards", cardList);
+        model.addObject("clients", userService.getAllClients());
         return model;
     }
 
@@ -127,9 +100,21 @@ public class MainController {
     @RequestMapping(value = "/actionWithClientBill", method = RequestMethod.POST)
     public ModelAndView releaseClientBill(@RequestParam("actionAndBillId") String actionAndBillId) {
         billService.doAction(actionAndBillId);
-        ModelAndView model = new ModelAndView("redirect:" + "/admin");
-        //model.setViewName("adminHomePage");
-        //model.addObject("clients", userService.getAll()); //userService.getAllUnDeletedClients());
+        return new ModelAndView("redirect:" + "/admin");
+    }
+
+    /**
+     * /**
+     * Prepare client room page.
+     * @param principal - data about authorized user
+     * @return model of client room
+     */
+    @RequestMapping(value = "/client**", method = RequestMethod.GET)
+    public ModelAndView clientHomePage(Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        ModelAndView model = new ModelAndView();
+        model.setViewName("clientHomePage");
+        model.addObject("bills", billService.getAllClientBills(user));
         return model;
     }
 }
