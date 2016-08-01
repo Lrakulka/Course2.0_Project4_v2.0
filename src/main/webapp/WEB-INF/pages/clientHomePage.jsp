@@ -19,6 +19,10 @@
 		<spring:message code="client.button.pay" var="pay" />
 		<spring:message code="client.label.blocked" var="blocked" />
 		<spring:message code="client.label.unblocked" var="unblocked" />
+		<spring:message code="button.unblock" var="unblock" />
+		<spring:message code="button.block" var="block" />
+		<spring:message code="button.undelete" var="undelete" />
+		<spring:message code="button.delete" var="delete" />
 
 		<tables:clientTable bills="${bills}"
 							buttonFillInfo="${fill}"
@@ -26,6 +30,10 @@
 							buttonMakePaymentInfo="${pay}"
 							textBlocked="${blocked}"
 							textUnBlocked="${unblocked}"
+							deleteButtonInfo="${delete}"
+							unDeleteButtonInfo="${undelete}"
+							blockButtonInfo="${block}"
+							unBlockButtonInfo="${unblock}"
 							parameterName="${_csrf.parameterName}"
 							token="${_csrf.token}"
 		/>
@@ -51,5 +59,6 @@
 					<spring:message code="client.label.logout" /></a>
 			</h2>
 		</c:if>
+		<a href="/welcome"><spring:message code="label.welcom_room" /></a>
 	</body>
 </html>

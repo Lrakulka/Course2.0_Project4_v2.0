@@ -27,21 +27,31 @@ public class ClientTable extends TagSupport {
     private String buttonBlockInfo;
     private String textBlocked;
     private String textUnBlocked;
+    private String textDeleted;
+    private String blockButtonInfo;
+    private String unBlockButtonInfo;
+    private String deleteButtonInfo;
+    private String unDeleteButtonInfo;
 
-   /* @Override
+    @Override
     public int doStartTag() {
         StringBuilder tableBuilder = new StringBuilder(
-                "<table border=\"2\" cellpadding=\"8\">");
+                "<form name=\"ClientTable\" action=\"/actionWithClientCard\" " +
+                        "method=\"post\">" + "<table border=\"2\" cellpadding=\"8\">" +
+                        "<input type=\"hidden\" name=\"" + parameterName + "\"" +
+                        "	value=\"" + token + "\" />");
         int i;
         for (Bill bill : bills) {
             i = 0;
             if (bill.getCards().size() > 1) {
                 tableBuilder.append("<tr><td rowspan=" +
                         bill.getCards().size() + ">" +
-                        bill.getName() + "</td><td>" + bill.getScore() + "</td>");
+                        bill.getName() + "</td><td rowspan=" +
+                        bill.getCards().size() + ">" + bill.getScore() + "</td>");
             } else {
                 tableBuilder.append("<tr><td>" + bill.getName() +
-                        "</td><td>" + bill.getScore() + "</td>");
+                        "</td><td rowspan=" +
+                        bill.getCards().size() + ">" + bill.getScore() + "</td>");
             }
             for (Card card : bill.getCards()) {
                 if (i > 0) {
@@ -55,21 +65,21 @@ public class ClientTable extends TagSupport {
                     tableBuilder.append("<td>" + (card.getActive() ? textUnBlocked : textBlocked) + "</td>");
                 }
                 if (card.getActive()) {
-                    tableBuilder.append("<td><button name=\"actionAndBillId\"" +
+                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
                             " value=\"" + card.getId() + "+block\">" + blockButtonInfo + "</button></td>");
                 } else {
-                    tableBuilder.append("<td><button name=\"actionAndBillId\"" +
+                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
                             " value=\"" + card.getId() + "+unblock\">" + unBlockButtonInfo + "</button></td>");
                 }
                 if (card.getDeleted()) {
-                    tableBuilder.append("<td><button name=\"actionAndBillId\"" +
+                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
                             " value=\"" + card.getId() + "+undelete\">" + unDeleteButtonInfo + "</button></td>");
                 } else {
-                    tableBuilder.append("<td><button name=\"actionAndBillId\"" +
+                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
                             " value=\"" + card.getId() + "+delete\">" + deleteButtonInfo + "</button></td>");
                 }
                 i++;
-                if ((i > 0) && (i != card.getBills().size())) {
+                if ((i > 0) && (i != bill.getCards().size())) {
                     tableBuilder.append("</tr>");
                 }
             }
@@ -82,5 +92,5 @@ public class ClientTable extends TagSupport {
             e.printStackTrace();
         }
         return SKIP_BODY;
-    }*/
+    }
 }

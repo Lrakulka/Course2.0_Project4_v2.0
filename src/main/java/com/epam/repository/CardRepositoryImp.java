@@ -29,4 +29,9 @@ public class CardRepositoryImp extends AbstractRepository<Card> implements CardR
     public Card findById(final int cardId) {
         return super.findByProperty("id", cardId);
     }
+
+    @Override
+    public void update(Card card) {
+        super.update(card);
+    }
 }

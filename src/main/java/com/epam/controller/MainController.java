@@ -96,11 +96,15 @@ public class MainController {
     /**
      * Handling operations with client bill
      * @param actionAndBillId - contains bill id and action which must be done
-     * @return model of admin room with updated data
+     * @return redirect to admin room with updated data
      */
     @RequestMapping(value = "/actionWithClientBill", method = RequestMethod.POST)
-    public ModelAndView releaseClientBill(@RequestParam("actionAndBillId") String actionAndBillId) {
-        billService.doAction(actionAndBillId);
+    public ModelAndView clientBill(@RequestParam("actionAndCardId") String actionAndBillId,
+                                   Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        if (user.getActive()) {
+            billService.doAction(actionAndBillId);
+        }
         return new ModelAndView("redirect:" + "/admin");
     }
 
@@ -116,8 +120,22 @@ public class MainController {
         ModelAndView model = new ModelAndView();
         model.setViewName("clientHomePage");
         model.addObject("bills", billService.getAllClientBills(user));
-        throw new Exception();
-        //return model;
+        return model;
+    }
+
+    /**
+     * Handling operations with client bill
+     * @param actionAndCardId - contains card id and action which must be done
+     * @return redirect to client room with updated data
+     */
+    @RequestMapping(value = "/actionWithClientCard", method = RequestMethod.POST)
+    public ModelAndView clientCard(@RequestParam("actionAndCardId") String actionAndCardId,
+                                   Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        if (user.getActive()) {
+            cardService.doAction(actionAndCardId);
+        }
+        return new ModelAndView("redirect:" + "/client");
     }
 
     @ExceptionHandler(Exception.class)

@@ -90,6 +90,30 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
+            <name>deleteButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>unDeleteButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>blockButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>unBlockButtonInfo</name>
+            <required>true</required>
+            <description>Provide the localization for button message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>buttonFillInfo</name>
             <required>true</required>
             <description>Provide the localization for button message</description>

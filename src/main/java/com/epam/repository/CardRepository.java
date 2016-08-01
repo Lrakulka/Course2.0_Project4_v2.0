@@ -13,4 +13,6 @@ public interface CardRepository {
     List<Card> findAll();
 
     Card findById(final int cardId);
+
+    void update(Card card);
 }
