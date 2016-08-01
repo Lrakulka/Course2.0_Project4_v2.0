@@ -7,6 +7,7 @@ import com.epam.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,11 +111,18 @@ public class MainController {
      * @return model of client room
      */
     @RequestMapping(value = "/client**", method = RequestMethod.GET)
-    public ModelAndView clientHomePage(Principal principal) {
+    public ModelAndView clientHomePage(Principal principal) throws Exception {
         User user = userService.findByEmail(principal.getName());
         ModelAndView model = new ModelAndView();
         model.setViewName("clientHomePage");
         model.addObject("bills", billService.getAllClientBills(user));
-        return model;
+        throw new Exception();
+        //return model;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleIOException(Exception exception) {
+        ModelAndView modelAndView = new ModelAndView("brokenPage");
+        return modelAndView;
     }
 }
