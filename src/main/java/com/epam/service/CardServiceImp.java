@@ -68,15 +68,4 @@ public class CardServiceImp implements CardService {
         card.setDeleted(true);
         cardRepository.update(card);
     }
-
-    @Override
-    public List<Bill> getAllClientBills(User user) {
-        Iterator<Bill> iterator = user.getBills().iterator();
-        iterator.forEachRemaining(bill -> {
-            if (bill.getDeleted()) {
-                iterator.remove();
-            }
-        });
-        return new ArrayList<>(user.getBills());
-    }
 }

@@ -18,6 +18,4 @@ public interface CardService {
     void restoreCard(int billId);
 
     void deleteCard(int billId);
-
-    List<Bill> getAllClientBills(User user);
 }
