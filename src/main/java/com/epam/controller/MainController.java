@@ -151,9 +151,10 @@ public class MainController {
     public ModelAndView fillClientBill(@RequestParam("billId") Integer billId,
                                        @RequestParam("moneyCount") Double money,
                                        Principal principal) {
-        User user = userService.findByEmail(principal.getName());
         ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
-        billService.fillBill(user, billId, money);
+        if (!billService.fillBill(principal.getName(), billId, money)) {
+            modelAndView.addObject("errMsg", "Incorrect data");
+        }
         return modelAndView;
     }
 
@@ -173,8 +174,8 @@ public class MainController {
                                           @RequestParam("cardName") String cardName,
                                           @RequestParam("passWord") String password,
                                           Principal principal) {
-        User user = userService.findByEmail(principal.getName());
         ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
+        User user = userService.findByEmail(principal.getName());
         Card exceptCard = cardService.findByName(cardName);
         if (exceptCard == null) {
             modelAndView.addObject("msgCard", "Card with such name doesn't exist");
@@ -185,11 +186,15 @@ public class MainController {
             modelAndView.addObject("msgBill", "Your have no such bill");
             return modelAndView;
         }
-        if (billService.checkPassword(password)) {
+        if (billService.checkPassword(clientBill, nativeCardId, password)) {
             modelAndView.addObject("msgPass", "Password error");
             return modelAndView;
         }
-        billService.makePayment(clientBill, exceptCard, payment);
+        if (clientBill.getScore() > payment) {
+            billService.makePayment(clientBill, exceptCard, payment);
+        } else {
+            modelAndView.addObject("msgMon", "Not enough money");
+        }
         return modelAndView;
     }
 

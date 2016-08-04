@@ -23,11 +23,11 @@ public interface BillService {
 
     List<Bill> getAllClientBills(User user);
 
-    boolean fillBill(User user, int billId, Double aDouble);
+    boolean fillBill(String userEmail, Integer billId, Double money);
 
     Bill getClientBill(User user, Integer billId);
 
-    boolean checkPassword(String password);
+    boolean checkPassword(Bill clientBill, String nativeCardId, String password);
 
     void makePayment(Bill clientBill, Card exceptCard, Double payment);
 }
