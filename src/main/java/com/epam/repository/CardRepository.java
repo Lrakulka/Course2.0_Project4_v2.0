@@ -15,4 +15,6 @@ public interface CardRepository {
     Card findById(final int cardId);
 
     void update(Card card);
+
+    Card findByName(String name);
 }

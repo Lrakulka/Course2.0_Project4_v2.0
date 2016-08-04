@@ -1,6 +1,7 @@
 package com.epam.service;
 
 import com.epam.model.Bill;
+import com.epam.model.Card;
 import com.epam.model.User;
 
 import java.util.List;
@@ -21,4 +22,12 @@ public interface BillService {
     void deleteBill(int billId);
 
     List<Bill> getAllClientBills(User user);
+
+    boolean fillBill(User user, int billId, Double aDouble);
+
+    Bill getClientBill(User user, Integer billId);
+
+    boolean checkPassword(String password);
+
+    void makePayment(Bill clientBill, Card exceptCard, Double payment);
 }

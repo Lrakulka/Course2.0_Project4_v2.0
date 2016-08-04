@@ -68,4 +68,9 @@ public class CardServiceImp implements CardService {
         card.setDeleted(true);
         cardRepository.update(card);
     }
+
+    @Override
+    public Card findByName(String name) {
+        return cardRepository.findByName(name);
+    }
 }

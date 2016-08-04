@@ -1,5 +1,7 @@
 package com.epam.controller;
 
+import com.epam.model.Bill;
+import com.epam.model.Card;
 import com.epam.model.User;
 import com.epam.service.BillService;
 import com.epam.service.CardService;
@@ -138,9 +140,62 @@ public class MainController {
         return new ModelAndView("redirect:" + "/client");
     }
 
-    @ExceptionHandler(Exception.class)
+    /**
+     * Handling request of client's bill filling with money
+     * @param billId - id of card which connected with bill
+     * @param money - money count to fill bill
+     * @param principal - data about user which want to fill his bill
+     * @return model of client room with updated data
+     */
+    @RequestMapping(value = "/fillClientBill", method = RequestMethod.POST)
+    public ModelAndView fillClientBill(@RequestParam("billId") Integer billId,
+                                       @RequestParam("moneyCount") Double money,
+                                       Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
+        billService.fillBill(user, billId, money);
+        return modelAndView;
+    }
+
+    /**
+     * Handling request of client's bill payment
+     * @param billId - id of card which connected with bill
+     * @param payment - money count to make payment
+     * @param cardName - name of card which will except money
+     * @param password - password of one of the bills card
+     * @param principal - data about user which want to make payment
+     * @return model of client room with updated data
+     */
+    @RequestMapping(value = "/sentMoney", method = RequestMethod.POST)
+    public ModelAndView makeClientPayment(@RequestParam("billId") Integer billId,
+                                          @RequestParam("moneyCount") Double payment,
+                                          @RequestParam("nativeCardId") String nativeCardId,
+                                          @RequestParam("cardName") String cardName,
+                                          @RequestParam("passWord") String password,
+                                          Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
+        Card exceptCard = cardService.findByName(cardName);
+        if (exceptCard == null) {
+            modelAndView.addObject("msgCard", "Card with such name doesn't exist");
+            return modelAndView;
+        }
+        Bill clientBill = billService.getClientBill(user, billId);
+        if (clientBill == null) {
+            modelAndView.addObject("msgBill", "Your have no such bill");
+            return modelAndView;
+        }
+        if (billService.checkPassword(password)) {
+            modelAndView.addObject("msgPass", "Password error");
+            return modelAndView;
+        }
+        billService.makePayment(clientBill, exceptCard, payment);
+        return modelAndView;
+    }
+
+    /*@ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
         ModelAndView modelAndView = new ModelAndView("brokenPage");
         return modelAndView;
-    }
+    }*/
 }

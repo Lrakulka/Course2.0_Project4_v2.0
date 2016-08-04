@@ -90,6 +90,24 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
+            <name>moneyName</name>
+            <required>true</required>
+            <description>Provide the localization for money message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>cardName</name>
+            <required>true</required>
+            <description>Provide the localization for card message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>passName</name>
+            <required>true</required>
+            <description>Provide the localization for password message</description>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>deleteButtonInfo</name>
             <required>true</required>
             <description>Provide the localization for button message</description>

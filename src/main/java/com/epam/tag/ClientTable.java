@@ -32,14 +32,14 @@ public class ClientTable extends TagSupport {
     private String unBlockButtonInfo;
     private String deleteButtonInfo;
     private String unDeleteButtonInfo;
+    private String cardName;
+    private String passName;
+    private String moneyName;
 
     @Override
     public int doStartTag() {
         StringBuilder tableBuilder = new StringBuilder(
-                "<form name=\"ClientTable\" action=\"/actionWithClientCard\" " +
-                        "method=\"post\">" + "<table border=\"2\" cellpadding=\"8\">" +
-                        "<input type=\"hidden\" name=\"" + parameterName + "\"" +
-                        "	value=\"" + token + "\" />");
+                "<table border=\"2\" cellpadding=\"8\">");
         int i;
         for (Bill bill : bills) {
             i = 0;
@@ -58,7 +58,10 @@ public class ClientTable extends TagSupport {
                     tableBuilder.append("<tr>");
                 }
                 tableBuilder.append("<td>" + card.getName());
-
+                tableBuilder.append(
+                        "<form name=\"ClientTable\" action=\"/actionWithClientCard\" " +
+                                "method=\"post\">" + "<input type=\"hidden\" name=\"" +
+                                parameterName + "\" value=\"" + token + "\" />");
                 if (card.getDeleted()) {
                     tableBuilder.append("<td>" + textDeleted + "</td>");
                 } else {
@@ -78,6 +81,26 @@ public class ClientTable extends TagSupport {
                     tableBuilder.append("<td><button name=\"actionAndCardId\"" +
                             " value=\"" + card.getId() + "+delete\">" + deleteButtonInfo + "</button></td>");
                 }
+                tableBuilder.append("</form>");
+                tableBuilder.append("<td><form name=\"fillBill\" action=\"/fillClientBill\" " +
+                        "method=\"post\">" +
+                        "<input type=\"hidden\" name=\"" + parameterName +"\"" +
+                        "	value=\"" + token + "\" /><p>" +
+                        moneyName + ": <input size=\"10\" type=\"text\" name=\"moneyCount\" /></p>" +
+                        "<button name=\"billId\" value=\"" +
+                        bill.getId() + "\">" + buttonFillInfo + "</button></form></td>" +
+                        // next form
+                        "<td><form name=\"sentMoney\" action=\"/sentMoney\" " +
+                        "method=\"post\">" +
+                        "<input type=\"hidden\" name=\"" + parameterName +"\"" +
+                        "	value=\"" + token + "\" />" +
+                        "<input type=\"hidden\" name=\"nativeCardId\"" +
+                        "	value=\"" + card.getId() + "\" /><p>" +
+                        cardName + ": <input size=\"6\" type=\"text\" name=\"cardName\" /></p><p>" +
+                        passName + ": <input size=\"6\" type=\"text\" name=\"passWord\" /></p><p>" +
+                        moneyName + ": <input size=\"10\" type=\"text\" name=\"moneyCount\" /></p>" +
+                        "<p><button name=\"billId\" value=\"" + bill.getId() + "\">" +
+                        buttonMakePaymentInfo + "</button></p></form></td>");
                 i++;
                 if ((i > 0) && (i != bill.getCards().size())) {
                     tableBuilder.append("</tr>");
@@ -85,7 +108,7 @@ public class ClientTable extends TagSupport {
             }
             tableBuilder.append("</tr>");
         }
-        tableBuilder.append("</table></form>");
+        tableBuilder.append("</table>");
         try {
             pageContext.getOut().write(tableBuilder.toString());
         } catch (IOException e) {

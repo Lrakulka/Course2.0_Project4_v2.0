@@ -2,7 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tables" uri="/WEB-INF/tables.tld"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
+<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
+<spring:message code="client.button.block" var="block" />
+<spring:message code="client.button.fill" var="fill" />
+<spring:message code="client.button.sent" var="pay" />
+<spring:message code="client.label.blocked" var="blocked" />
+<spring:message code="client.label.unblocked" var="unblocked" />
+<spring:message code="client.label.cardName" var="cardName" />
+<spring:message code="client.label.password" var="passwordName" />
+<spring:message code="client.label.moneyName" var="moneyName" />
+<spring:message code="button.unblock" var="unblock" />
+<spring:message code="button.block" var="block" />
+<spring:message code="button.undelete" var="undelete" />
+<spring:message code="button.delete" var="delete" />
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,18 +25,10 @@
 		</style>
 	</head>
 	<body>
-		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
-		<spring:message code="client.button.block" var="block" />
-		<spring:message code="client.button.fill" var="fill" />
-		<spring:message code="client.button.pay" var="pay" />
-		<spring:message code="client.label.blocked" var="blocked" />
-		<spring:message code="client.label.unblocked" var="unblocked" />
-		<spring:message code="button.unblock" var="unblock" />
-		<spring:message code="button.block" var="block" />
-		<spring:message code="button.undelete" var="undelete" />
-		<spring:message code="button.delete" var="delete" />
-
 		<tables:clientTable bills="${bills}"
+							cardName="${cardName}"
+                            passName="${passwordName}"
+                            moneyName="${moneyName}"
 							buttonFillInfo="${fill}"
 							buttonBlockInfo="${block}"
 							buttonMakePaymentInfo="${pay}"

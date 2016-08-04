@@ -86,4 +86,27 @@ public class BillServiceImp implements BillService {
         });
         return new ArrayList<>(user.getBills());
     }
+
+    @Override
+    public boolean fillBill(User user, int billId, Double aDouble) {
+        // TODO
+        return false;
+    }
+
+    @Override
+    public Bill getClientBill(User user, Integer billId) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public boolean checkPassword(String password) {
+        // TODO
+        return false;
+    }
+
+    @Override
+    public void makePayment(Bill clientBill, Card exceptCard, Double payment) {
+        // TODO
+    }
 }
