@@ -9,6 +9,7 @@ import com.epam.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import java.security.Principal;
 
 /**
  * Created by fg on 7/27/2016.
+ * Controller of model and view
  */
 
 @Controller
@@ -211,10 +213,15 @@ public class MainController {
         return modelAndView;
     }
 
-    /*@ExceptionHandler(Exception.class)
+    /**
+     * Catch all exception in controller
+     * @param exception - thrown exception
+     * @return View of error page
+     */
+    @ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
         LOGGER.error(exception);
         ModelAndView modelAndView = new ModelAndView("brokenPage");
         return modelAndView;
-    }*/
+    }
 }

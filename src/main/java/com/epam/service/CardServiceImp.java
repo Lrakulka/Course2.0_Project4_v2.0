@@ -19,10 +19,6 @@ public class CardServiceImp implements CardService {
     @Autowired
     private CardRepository cardRepository;
 
-    private static final String DELETE = "delete";
-    private static final String UN_DELETE = "undelete";
-    private static final String BLOCK = "block";
-    private static final String UN_BLOCK = "unblock";
     @Override
     public void doAction(String actionAndCardId) {
         LOGGER.debug("actionAndCardId=" + actionAndCardId);
@@ -40,33 +36,33 @@ public class CardServiceImp implements CardService {
     }
 
     @Override
-    public void blockCard(int billId) {
+    public void blockCard(int cardId) {
         LOGGER.debug("block Card");
-        Card card = cardRepository.findById(billId);
+        Card card = cardRepository.findById(cardId);
         card.setActive(false);
         cardRepository.update(card);
     }
 
     @Override
-    public void unBlockCard(int billId) {
+    public void unBlockCard(int cardId) {
         LOGGER.debug("unBlock Card");
-        Card card = cardRepository.findById(billId);
+        Card card = cardRepository.findById(cardId);
         card.setActive(true);
         cardRepository.update(card);
     }
 
     @Override
-    public void restoreCard(int billId) {
+    public void restoreCard(int cardId) {
         LOGGER.debug("restore Card");
-        Card card = cardRepository.findById(billId);
+        Card card = cardRepository.findById(cardId);
         card.setDeleted(false);
         cardRepository.update(card);
     }
 
     @Override
-    public void deleteCard(int billId) {
+    public void deleteCard(int cardId) {
         LOGGER.debug("delete Card");
-        Card card = cardRepository.findById(billId);
+        Card card = cardRepository.findById(cardId);
         card.setDeleted(true);
         cardRepository.update(card);
     }

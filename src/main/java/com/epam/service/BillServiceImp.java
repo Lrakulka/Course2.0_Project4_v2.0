@@ -29,10 +29,6 @@ public class BillServiceImp implements BillService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final String DELETE = "delete";
-    private static final String UN_DELETE = "undelete";
-    private static final String BLOCK = "block";
-    private static final String UN_BLOCK = "unblock";
     @Override
     public void doAction(String actionAndBillId) {
         LOGGER.warn("actionAndBillId=" + actionAndBillId);

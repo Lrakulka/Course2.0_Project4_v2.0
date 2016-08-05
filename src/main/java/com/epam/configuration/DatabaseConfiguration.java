@@ -15,6 +15,9 @@ import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
+/**
+ * Configure settings of database, pool connection and Hibernate
+ */
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = {"classpath:application.properties"})
