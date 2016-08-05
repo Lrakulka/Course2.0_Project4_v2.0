@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.epam</groupId>
-  <artifactId>Project4</artifactId>
+  <artifactId>EPAM2.0_Project4_v2.0</artifactId>
   <packaging>war</packaging>
   <version>2.0-Annotations</version>
   <name>Project4 Maven Webapp</name>
@@ -137,7 +137,7 @@
   </dependencies>
 
   <build>
-    <finalName>Project4</finalName>
+    <finalName>EPAM2.0_Project4_v2.0</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
