@@ -179,7 +179,7 @@ public class MainController {
     @RequestMapping(value = "/sentMoney", method = RequestMethod.POST)
     public ModelAndView makeClientPayment(@RequestParam("billId") Integer billId,
                                           @RequestParam("moneyCount") Double payment,
-                                          @RequestParam("nativeCardId") String nativeCardId,
+                                          @RequestParam("nativeCardId") Integer nativeCardId,
                                           @RequestParam("cardName") String cardName,
                                           @RequestParam("passWord") String password,
                                           Principal principal) {

@@ -27,7 +27,7 @@ public interface BillService {
 
     Bill getClientBill(User user, Integer billId);
 
-    boolean checkPassword(Bill clientBill, String nativeCardId, String password);
+    boolean checkPassword(Bill clientBill, Integer nativeCardId, String password);
 
     void makePayment(Bill clientBill, Card exceptCard, Double payment);
 }

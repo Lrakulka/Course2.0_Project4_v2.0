@@ -131,7 +131,7 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public boolean checkPassword(Bill clientBill, String cardId, String password) {
+    public boolean checkPassword(Bill clientBill, Integer cardId, String password) {
         LOGGER.debug("check Password");
         Card card;
         try {
