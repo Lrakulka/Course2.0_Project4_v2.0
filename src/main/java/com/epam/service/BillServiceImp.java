@@ -1,6 +1,5 @@
 package com.epam.service;
 
-import com.epam.controller.MainController;
 import com.epam.model.Bill;
 import com.epam.model.Card;
 import com.epam.model.User;
@@ -11,7 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by fg on 7/27/2016.

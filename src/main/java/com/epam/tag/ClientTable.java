@@ -3,13 +3,13 @@
  */
 package com.epam.tag;
 
-import java.io.IOException;
-import java.util.List;
-import javax.servlet.jsp.tagext.TagSupport;
-
 import com.epam.model.Bill;
 import com.epam.model.Card;
 import lombok.Setter;
+
+import javax.servlet.jsp.tagext.TagSupport;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author asd

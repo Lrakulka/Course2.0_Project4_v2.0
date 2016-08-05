@@ -1,10 +1,6 @@
 package com.epam.service;
 
-import com.epam.model.Bill;
 import com.epam.model.Card;
-import com.epam.model.User;
-
-import java.util.List;
 
 /**
  * Created by fg on 7/27/2016.

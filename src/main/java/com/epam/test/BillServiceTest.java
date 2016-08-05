@@ -18,9 +18,7 @@ import java.util.List;
 
 import static com.epam.test.configuration.ExpectedData.USER_SASHA;
 import static com.epam.test.configuration.ExpectedData.USER_SASHA2;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by fg on 8/5/2016.

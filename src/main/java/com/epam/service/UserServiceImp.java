@@ -5,14 +5,12 @@ import com.epam.model.User;
 import com.epam.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
-import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by fg on 7/27/2016.

@@ -15,9 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static com.epam.test.configuration.ExpectedData.CARD1;
 import static com.epam.test.configuration.ExpectedData.USER_MASHA;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by fg on 8/5/2016.
