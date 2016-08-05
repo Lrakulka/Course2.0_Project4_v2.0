@@ -23,7 +23,7 @@ import java.security.Principal;
 
 @Controller
 public class MainController {
-    private static final Logger logger = Logger.getLogger(MainController.class);
+    private static final Logger LOGGER = Logger.getLogger(MainController.class);
 
     @Autowired
     private UserService userService;
@@ -53,14 +53,17 @@ public class MainController {
             @RequestParam(value = "logout", required = false) String logout) {
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("error", "Invalid username and password!");
+            LOGGER.warn(principal + " Invalid username or password!");
+            model.addObject("error", "Invalid username or password!");
         }
         if (logout != null) {
+            LOGGER.warn(principal + " successful logout");
             model.addObject("msg", "You've been logged out successfully.");
         }
         if (principal == null) {
             model.setViewName("login");
         } else {
+            LOGGER.warn(principal + " successful login");
             model.setViewName("welcome");
         }
         return model;
@@ -73,6 +76,7 @@ public class MainController {
      */
     @RequestMapping(value = "/403**", method = RequestMethod.GET)
     public ModelAndView accesssDenied(Principal principal) {
+        LOGGER.debug(principal + " page 403");
         ModelAndView model = new ModelAndView();
         if (principal != null) {
             model.addObject("username", principal.getName());
@@ -89,6 +93,7 @@ public class MainController {
      */
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
     public ModelAndView adminHomePage() {
+        LOGGER.debug("page admin");
         ModelAndView model = new ModelAndView();
         model.setViewName("adminHomePage");
         model.addObject("clients", userService.getAllClientsWithBills());
@@ -103,6 +108,7 @@ public class MainController {
     @RequestMapping(value = "/actionWithClientBill", method = RequestMethod.POST)
     public ModelAndView clientBill(@RequestParam("actionAndCardId") String actionAndBillId,
                                    Principal principal) {
+        LOGGER.debug(principal + " action with client bill");
         User user = userService.findByEmail(principal.getName());
         if (user.getActive()) {
             billService.doAction(actionAndBillId);
@@ -118,6 +124,7 @@ public class MainController {
      */
     @RequestMapping(value = "/client**", method = RequestMethod.GET)
     public ModelAndView clientHomePage(Principal principal) throws Exception {
+        LOGGER.debug(principal + " client page");
         User user = userService.findByEmail(principal.getName());
         ModelAndView model = new ModelAndView();
         model.setViewName("clientHomePage");
@@ -133,6 +140,7 @@ public class MainController {
     @RequestMapping(value = "/actionWithClientCard", method = RequestMethod.POST)
     public ModelAndView clientCard(@RequestParam("actionAndCardId") String actionAndCardId,
                                    Principal principal) {
+        LOGGER.debug(principal + " action with client card");
         User user = userService.findByEmail(principal.getName());
         if (user.getActive()) {
             cardService.doAction(actionAndCardId);
@@ -151,6 +159,7 @@ public class MainController {
     public ModelAndView fillClientBill(@RequestParam("billId") Integer billId,
                                        @RequestParam("moneyCount") Double money,
                                        Principal principal) {
+        LOGGER.debug(principal + " fill client bill");
         ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
         if (!billService.fillBill(principal.getName(), billId, money)) {
             modelAndView.addObject("errMsg", "Incorrect data");
@@ -174,33 +183,39 @@ public class MainController {
                                           @RequestParam("cardName") String cardName,
                                           @RequestParam("passWord") String password,
                                           Principal principal) {
+        LOGGER.debug(principal + " sent money");
         ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
         User user = userService.findByEmail(principal.getName());
         Card exceptCard = cardService.findByName(cardName);
         if (exceptCard == null) {
+            LOGGER.warn(principal + " Card with such name doesn't exist");
             modelAndView.addObject("msgCard", "Card with such name doesn't exist");
             return modelAndView;
         }
         Bill clientBill = billService.getClientBill(user, billId);
         if (clientBill == null) {
+            LOGGER.warn(principal + " Your have no such bill");
             modelAndView.addObject("msgBill", "Your have no such bill");
             return modelAndView;
         }
         if (billService.checkPassword(clientBill, nativeCardId, password)) {
+            LOGGER.warn(principal + " Password not correct");
             modelAndView.addObject("msgPass", "Password error");
             return modelAndView;
         }
         if (clientBill.getScore() > payment) {
             billService.makePayment(clientBill, exceptCard, payment);
         } else {
+            LOGGER.warn(principal + " Not enough money");
             modelAndView.addObject("msgMon", "Not enough money");
         }
         return modelAndView;
     }
 
-    /*@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
+        LOGGER.error(exception);
         ModelAndView modelAndView = new ModelAndView("brokenPage");
         return modelAndView;
-    }*/
+    }
 }

@@ -5,6 +5,7 @@ import com.epam.model.Card;
 import com.epam.model.User;
 import com.epam.repository.BillRepository;
 import com.epam.repository.CardRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import java.util.List;
 @Service
 @Transactional
 public class CardServiceImp implements CardService {
+    private static final Logger LOGGER = Logger.getLogger(CardServiceImp.class);
+
     @Autowired
     private CardRepository cardRepository;
 
@@ -28,6 +31,7 @@ public class CardServiceImp implements CardService {
     private static final String UN_BLOCK = "unblock";
     @Override
     public void doAction(String actionAndCardId) {
+        LOGGER.debug("actionAndCardId=" + actionAndCardId);
         int cardId = Integer.valueOf(actionAndCardId.substring(0, actionAndCardId.indexOf("+")));
         actionAndCardId = actionAndCardId.substring(actionAndCardId.indexOf("+") + 1, actionAndCardId.length());
         switch (actionAndCardId) {
@@ -43,6 +47,7 @@ public class CardServiceImp implements CardService {
 
     @Override
     public void blockCard(int billId) {
+        LOGGER.debug("block Card");
         Card card = cardRepository.findById(billId);
         card.setActive(false);
         cardRepository.update(card);
@@ -50,6 +55,7 @@ public class CardServiceImp implements CardService {
 
     @Override
     public void unBlockCard(int billId) {
+        LOGGER.debug("unBlock Card");
         Card card = cardRepository.findById(billId);
         card.setActive(true);
         cardRepository.update(card);
@@ -57,6 +63,7 @@ public class CardServiceImp implements CardService {
 
     @Override
     public void restoreCard(int billId) {
+        LOGGER.debug("restore Card");
         Card card = cardRepository.findById(billId);
         card.setDeleted(false);
         cardRepository.update(card);
@@ -64,6 +71,7 @@ public class CardServiceImp implements CardService {
 
     @Override
     public void deleteCard(int billId) {
+        LOGGER.debug("delete Card");
         Card card = cardRepository.findById(billId);
         card.setDeleted(true);
         cardRepository.update(card);
@@ -71,6 +79,7 @@ public class CardServiceImp implements CardService {
 
     @Override
     public Card findByName(String name) {
+        LOGGER.debug("get Card by name");
         return cardRepository.findByName(name);
     }
 }

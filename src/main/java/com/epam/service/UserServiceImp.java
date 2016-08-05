@@ -20,17 +20,20 @@ import java.util.Set;
 @Service
 @Transactional
 public class UserServiceImp implements UserService {
+    private static final Logger LOGGER = Logger.getLogger(UserServiceImp.class);
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public User findByEmail(String email) {
+        LOGGER.debug("get user by email");
         return userRepository.findByEmail(email);
     }
 
     @Override
     public User initByEmail(String userEmail) {
+        LOGGER.debug("init user roles");
         User user = userRepository.findByEmail(userEmail);
         if (user != null) {
             Hibernate.initialize(user.getUserRoles());
@@ -40,16 +43,19 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> getAll() {
+        LOGGER.debug("get all users");
         return userRepository.findAll();
     }
 
     @Override
     public List<User> getAllClients() {
+        LOGGER.debug("get all clients");
         return userRepository.getAllClients();
     }
 
     @Override
     public List<User> getAllClientsWithBills() {
+        LOGGER.debug("get All Clients With Bills");
         List<User> users = getAllClients();
         users.forEach(user -> {
             Iterator<Bill> iterator = user.getBills().iterator();

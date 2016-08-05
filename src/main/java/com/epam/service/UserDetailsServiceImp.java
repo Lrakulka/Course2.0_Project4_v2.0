@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Service("userDetailsService")
 public class UserDetailsServiceImp implements UserDetailsService {
-    private static final Logger logger = Logger.getLogger(UserDetailsServiceImp.class);
+    private static final Logger LOGGER = Logger.getLogger(UserDetailsServiceImp.class);
 
     @Autowired
     private UserService userService;
@@ -31,11 +31,11 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String userEmail)
             throws UsernameNotFoundException {
-        logger.info(new StringBuilder("Entering name=").
+        LOGGER.info(new StringBuilder("Entering name=").
                 append(userEmail));
         User user = userService.initByEmail(userEmail);
         List<GrantedAuthority> authorities = buildActorAuthority(user.getUserRoles());
-        logger.info(new StringBuilder("Leaving actorName=").
+        LOGGER.info(new StringBuilder("Leaving actorName=").
                 append(user.getEmail().charAt(0)).
                 append("*** ActorRoleCount=").append(authorities.size()));
         return buildActorForAuthentication(user, authorities);
@@ -51,7 +51,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
      */
     private org.springframework.security.core.userdetails.User
     buildActorForAuthentication(final User user, final List<GrantedAuthority> authorities) {
-        logger.info("Convertion com.homework.User to" +
+        LOGGER.info("Convertion com.homework.User to" +
                 "org.springframework.security.core.userdetails.User");
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), true, true, true, true, authorities);
@@ -64,14 +64,14 @@ public class UserDetailsServiceImp implements UserDetailsService {
      * @return list of actor authority in system
      */
     private List<GrantedAuthority> buildActorAuthority(final Set<UserRole> userRoles) {
-        logger.info(new StringBuilder("Entering userRolesCount=").
+        LOGGER.info(new StringBuilder("Entering userRolesCount=").
                 append(userRoles.size()));
         Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
         // Build actor's authorities
         setAuths.addAll(userRoles.stream().map(actorRole ->
                 new SimpleGrantedAuthority(actorRole.getRole())).collect(Collectors.toList()));
         List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(setAuths);
-        logger.info(new StringBuilder("Leaving ResultCount=").
+        LOGGER.info(new StringBuilder("Leaving ResultCount=").
                 append(result.size()));
         return result;
     }

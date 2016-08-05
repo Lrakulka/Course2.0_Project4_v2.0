@@ -1,9 +1,11 @@
 package com.epam.service;
 
+import com.epam.controller.MainController;
 import com.epam.model.Bill;
 import com.epam.model.Card;
 import com.epam.model.User;
 import com.epam.repository.BillRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.*;
 @Service
 @Transactional
 public class BillServiceImp implements BillService {
+    private static final Logger LOGGER = Logger.getLogger(BillServiceImp.class);
 
     @Autowired
     private BillRepository billRepository;
@@ -30,6 +33,7 @@ public class BillServiceImp implements BillService {
     private static final String UN_BLOCK = "unblock";
     @Override
     public void doAction(String actionAndBillId) {
+        LOGGER.warn("actionAndBillId=" + actionAndBillId);
         int billId = Integer.valueOf(actionAndBillId.substring(0, actionAndBillId.indexOf("+")));
         actionAndBillId = actionAndBillId.substring(actionAndBillId.indexOf("+") + 1, actionAndBillId.length());
         switch (actionAndBillId) {
@@ -56,6 +60,7 @@ public class BillServiceImp implements BillService {
     public void unBlockBill(int billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
+            LOGGER.warn("unBlockBill failed");
             bill.setActive(true);
             billRepository.update(bill);
         }
@@ -65,6 +70,7 @@ public class BillServiceImp implements BillService {
     public void restoreBill(int billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
+            LOGGER.warn("restoreBill failed");
             bill.setDeleted(false);
             billRepository.update(bill);
         }
@@ -74,6 +80,7 @@ public class BillServiceImp implements BillService {
     public void deleteBill(int billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
+            LOGGER.warn("deleteBill failed");
             bill.setDeleted(true);
             billRepository.update(bill);
         }
@@ -81,6 +88,7 @@ public class BillServiceImp implements BillService {
 
     @Override
     public List<Bill> getAllClientBills(User user) {
+        LOGGER.debug("All client bill");
         Iterator<Bill> iterator = user.getBills().iterator();
         iterator.forEachRemaining(bill -> {
             if (bill.getDeleted()) {
@@ -101,17 +109,20 @@ public class BillServiceImp implements BillService {
 
     @Override
     public boolean fillBill(String userEmail, Integer billId, Double money) {
+        LOGGER.debug("Fill bill");
         Bill bill = billRepository.findById(billId);
         if (bill != null && bill.getUser().getEmail().equals(userEmail)) {
             bill.setScore(money + bill.getScore());
             billRepository.update(bill);
             return true;
         }
+        LOGGER.warn("Fill bill failed");
         return false;
     }
 
     @Override
     public Bill getClientBill(User user, Integer billId) {
+        LOGGER.debug("client bill");
         Bill bill = billRepository.findById(billId);
         if ((bill != null) && (bill.getUser().equals(user))) {
             return bill;
@@ -121,11 +132,13 @@ public class BillServiceImp implements BillService {
 
     @Override
     public boolean checkPassword(Bill clientBill, String cardId, String password) {
+        LOGGER.debug("check Password");
         Card card;
         try {
             card = clientBill.getCards().stream().filter(c -> c.getId()
                     .equals(cardId)).findFirst().get();
         } catch (NoSuchElementException e) {
+            LOGGER.warn("check Password failed");
             return false;
         }
         return card.getPassword().equals(passwordEncoder.encode(password));
@@ -133,6 +146,7 @@ public class BillServiceImp implements BillService {
 
     @Override
     public void makePayment(Bill clientBill, Card exceptCard, Double payment) {
+        LOGGER.debug("make Payment");
         Bill exceptBill = exceptCard.getBill();
         clientBill.setScore(clientBill.getScore() - Math.abs(payment));
         exceptBill.setScore(exceptBill.getScore() + Math.abs(payment));
