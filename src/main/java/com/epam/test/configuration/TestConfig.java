@@ -11,16 +11,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = {"com.epam.tag.*", "com.epam.repository", "com.epam.service"})
+@ComponentScan(basePackages = {"com.epam.repository", "com.epam.service"})
+@EnableTransactionManagement
 @PropertySource(value = {"classpath:application.properties"})
-@Order
 public class TestConfig {
+    // TODO override of database beans not work
     @Autowired
     private Environment environment;
 
