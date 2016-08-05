@@ -106,7 +106,7 @@ public class MainController {
      * @return redirect to admin room with updated data
      */
     @RequestMapping(value = "/actionWithClientBill", method = RequestMethod.POST)
-    public ModelAndView clientBill(@RequestParam("actionAndCardId") String actionAndBillId,
+    public ModelAndView clientBill(@RequestParam("actionAndBillId") String actionAndBillId,
                                    Principal principal) {
         LOGGER.debug(principal + " action with client bill");
         User user = userService.findByEmail(principal.getName());
@@ -212,10 +212,10 @@ public class MainController {
         return modelAndView;
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
         LOGGER.error(exception);
         ModelAndView modelAndView = new ModelAndView("brokenPage");
         return modelAndView;
-    }
+    }*/
 }
