@@ -18,8 +18,8 @@ import javax.validation.constraints.Size;
 
 @Setter
 @Getter
-@EqualsAndHashCode(of = {"id", "score"})
-@ToString(of = {"score", "active"})
+@EqualsAndHashCode(of = {"email", "firstName", "lastName"})
+@ToString(of = {"email", "firstName", "lastName"})
 @ValidPassword
 public class UserRegistrationDTO {
     @NotNull
