@@ -32,9 +32,6 @@
 							 parameterName="${_csrf.parameterName}"
 							 token="${_csrf.token}"
 		/>
-		<c:if test="${not empty msg}">
-			<div style="color:red"><spring:message code="admin.label.msg" /></div>
-		</c:if>
 
 		<c:url value="/logout" var="logoutUrl" />
 		<!-- csrt for log out-->
@@ -51,7 +48,7 @@
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>
 				<spring:message code="admin.label.welcome" /> :
-					${pageContext.request.userPrincipal.name} | <a
+					${sessionScope.get("userName")} | <a
 					href="javascript:formSubmit()"><spring:message code="admin.label.logout" /></a>
 			</h2>
 		</c:if>

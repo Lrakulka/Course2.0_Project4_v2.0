@@ -30,7 +30,6 @@
                             passName="${passwordName}"
                             moneyName="${moneyName}"
 							buttonFillInfo="${fill}"
-							buttonBlockInfo="${block}"
 							buttonMakePaymentInfo="${pay}"
 							textBlocked="${blocked}"
 							textUnBlocked="${unblocked}"
@@ -41,8 +40,20 @@
 							parameterName="${_csrf.parameterName}"
 							token="${_csrf.token}"
 		/>
-		<c:if test="${not empty msg}">
-			<div style="color:red"><spring:message code="client.label.msg" /></div>
+		<c:if test="${not empty param.msgCard}">
+			<div class="error"><spring:message code="client.label.msgCard" /></div>
+		</c:if>
+		<c:if test="${not empty param.msgBill}">
+			<div class="error"><spring:message code="client.label.msgBill" /></div>
+		</c:if>
+		<c:if test="${not empty param.errMsg}">
+			<div class="error"><spring:message code="client.label.errMsg" /></div>
+		</c:if>
+		<c:if test="${not empty param.msgPass}">
+			<div class="error"><spring:message code="client.label.msgPass" /></div>
+		</c:if>
+		<c:if test="${not empty param.msgMon}">
+			<div class="error"><spring:message code="client.label.msgMoney" /></div>
 		</c:if>
 
 		<c:url value="/logout" var="logoutUrl" />
@@ -58,7 +69,7 @@
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>
 				<spring:message code="client.label.welcome" /> :
-					${pageContext.request.userPrincipal.name} | <a
+					${sessionScope.get("userName")} | <a
 					href="javascript:formSubmit()">
 					<spring:message code="client.label.logout" /></a>
 			</h2>

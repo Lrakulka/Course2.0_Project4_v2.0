@@ -144,12 +144,6 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <name>buttonBlockInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
             <name>textBlocked</name>
             <required>true</required>
             <description>Msg if Blocked</description>

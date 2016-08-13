@@ -63,6 +63,7 @@ public class MainController {
         }
         if (principal == null) {
             model.setViewName("login");
+            LOGGER.warn("Not login");
         } else {
             LOGGER.warn(principal + " successful login");
             model.setViewName("welcome");
@@ -93,12 +94,11 @@ public class MainController {
      * @return model of admin room
      */
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
-    public ModelAndView adminHomePage() {
+    public ModelAndView adminHomePage(ModelAndView modelAndView) {
         LOGGER.debug("page admin");
-        ModelAndView model = new ModelAndView();
-        model.setViewName("adminHomePage");
-        model.addObject("clients", userService.getAllClientsWithBills());
-        return model;
+        modelAndView.setViewName("adminHomePage");
+        modelAndView.addObject("clients", userService.getAllClientsWithBills());
+        return modelAndView;
     }
 
     /**
@@ -114,7 +114,7 @@ public class MainController {
         if (user.getActive()) {
             billService.doAction(actionAndBillId);
         }
-        return new ModelAndView("redirect:" + "/admin");
+            return new ModelAndView("redirect:/admin");
     }
 
     /**
@@ -124,13 +124,12 @@ public class MainController {
      * @return model of client room
      */
     @RequestMapping(value = "/client**", method = RequestMethod.GET)
-    public ModelAndView clientHomePage(Principal principal) throws Exception {
+    public ModelAndView clientHomePage(ModelAndView modelAndView, Principal principal) throws Exception {
         LOGGER.debug(principal + " client page");
         User user = userService.findByEmail(principal.getName());
-        ModelAndView model = new ModelAndView();
-        model.setViewName("clientHomePage");
-        model.addObject("bills", billService.getAllClientBills(user));
-        return model;
+        modelAndView.setViewName("clientHomePage");
+        modelAndView.addObject("bills", billService.getAllClientBills(user));
+        return modelAndView;
     }
 
     /**
@@ -146,7 +145,7 @@ public class MainController {
         if (user.getActive()) {
             cardService.doAction(actionAndCardId);
         }
-        return new ModelAndView("redirect:" + "/client");
+        return new ModelAndView("redirect:/client");
     }
 
     /**
@@ -161,7 +160,7 @@ public class MainController {
                                        @RequestParam("moneyCount") Double money,
                                        Principal principal) {
         LOGGER.debug(principal + " fill client bill");
-        ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
+        ModelAndView modelAndView = new ModelAndView("redirect:/client");
         if (!billService.fillBill(principal.getName(), billId, money)) {
             modelAndView.addObject("errMsg", "Incorrect data");
         }
@@ -185,18 +184,18 @@ public class MainController {
                                           @RequestParam("passWord") String password,
                                           Principal principal) {
         LOGGER.debug(principal + " sent money");
-        ModelAndView modelAndView = new ModelAndView("redirect:" + "/client");
+        ModelAndView modelAndView = new ModelAndView("redirect:/client"); //new ModelAndView("redirect:/client");
         User user = userService.findByEmail(principal.getName());
         Card exceptCard = cardService.findByName(cardName);
         if (exceptCard == null) {
             LOGGER.warn(principal + " Card with such name doesn't exist");
-            modelAndView.addObject("msgCard", "Card with such name doesn't exist");
+            modelAndView.addObject("msgCard", "The card with such name doesn't exist");
             return modelAndView;
         }
         Bill clientBill = billService.getClientBill(user, billId);
         if (clientBill == null) {
-            LOGGER.warn(principal + " Your have no such bill");
-            modelAndView.addObject("msgBill", "Your have no such bill");
+            LOGGER.warn(principal + " You have no such bill");
+            modelAndView.addObject("msgBill", "You have no such bill");
             return modelAndView;
         }
         if (billService.checkPassword(clientBill, nativeCardId, password)) {
@@ -204,7 +203,7 @@ public class MainController {
             modelAndView.addObject("msgPass", "Password error");
             return modelAndView;
         }
-        if (clientBill.getScore() > payment) {
+        if ((clientBill.getScore() > payment) && (payment > 0)) {
             billService.makePayment(clientBill, exceptCard, payment);
         } else {
             LOGGER.warn(principal + " Not enough money");
@@ -218,10 +217,10 @@ public class MainController {
      * @param exception - thrown exception
      * @return View of error page
      */
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
         LOGGER.error(exception);
         ModelAndView modelAndView = new ModelAndView("brokenPage");
         return modelAndView;
-    }
+    }*/
 }

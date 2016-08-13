@@ -24,7 +24,6 @@ public class ClientTable extends TagSupport {
     private String token;
     private String buttonFillInfo;
     private String buttonMakePaymentInfo;
-    private String buttonBlockInfo;
     private String textBlocked;
     private String textUnBlocked;
     private String textDeleted;
@@ -86,7 +85,7 @@ public class ClientTable extends TagSupport {
                         "method=\"post\">" +
                         "<input type=\"hidden\" name=\"" + parameterName +"\"" +
                         "	value=\"" + token + "\" /><p>" +
-                        moneyName + ": <input size=\"10\" type=\"text\" name=\"moneyCount\" /></p>" +
+                        moneyName + ": <input size=\"10\" type=\"number\" step=\"0.01\" name=\"moneyCount\" /></p>" +
                         "<button name=\"billId\" value=\"" +
                         bill.getId() + "\">" + buttonFillInfo + "</button></form></td>" +
                         // next form
@@ -98,8 +97,8 @@ public class ClientTable extends TagSupport {
                         "	value=\"" + card.getId() + "\" /><p>" +
                         cardName + ": <input size=\"6\" type=\"text\" name=\"cardName\" /></p><p>" +
                         passName + ": <input size=\"6\" type=\"text\" name=\"passWord\" /></p><p>" +
-                        moneyName + ": <input size=\"10\" type=\"text\" name=\"moneyCount\" /></p>" +
-                        "<p><button name=\"billId\" value=\"" + bill.getId() + "\">" +
+                        moneyName + ": <input size=\"10\" type=\"number\" step=\"0.01\" min = 0.01" +
+                        " name=\"moneyCount\" /></p><p><button name=\"billId\" value=\"" + bill.getId() + "\">" +
                         buttonMakePaymentInfo + "</button></p></form></td>");
                 i++;
                 if ((i > 0) && (i != bill.getCards().size())) {
