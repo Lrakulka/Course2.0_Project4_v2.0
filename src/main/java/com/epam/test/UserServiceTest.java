@@ -1,7 +1,5 @@
 package com.epam.test;
 
-import com.epam.configuration.DatabaseConfiguration;
-import com.epam.configuration.SpringSecurityConfig;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import com.epam.test.configuration.TestConfig;
@@ -21,7 +19,7 @@ import static junit.framework.TestCase.assertTrue;
  * Tests for User Service
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestConfig.class, DatabaseConfiguration.class, SpringSecurityConfig.class})
+@ContextConfiguration(classes = {TestConfig.class})
 public class UserServiceTest {
 
     @Autowired

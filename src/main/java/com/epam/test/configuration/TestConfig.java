@@ -1,14 +1,13 @@
 package com.epam.test.configuration;
 
+import com.epam.configuration.DatabaseConfiguration;
+import com.epam.configuration.SpringSecurityConfig;
+import com.epam.service.*;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -16,48 +15,46 @@ import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = {"com.epam.repository", "com.epam.service"})
+@ComponentScan(basePackages = {"com.epam.repository"})
 @EnableTransactionManagement
 @PropertySource(value = {"classpath:application.properties"})
-public class TestConfig {
-    // TODO override of database beans not work
+@Import(DatabaseConfiguration.class)
+public class TestConfig extends DatabaseConfiguration {
     @Autowired
     private Environment environment;
 
     @Bean
     public DataSource dataSource() throws PropertyVetoException {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass(environment.getRequiredProperty("jdbc.driverClassName"));
+        ComboPooledDataSource dataSource = (ComboPooledDataSource) super.dataSource();
         dataSource.setJdbcUrl(environment.getRequiredProperty("jdbc.url.test"));
-        dataSource.setUser(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-        dataSource.setMinPoolSize(Integer.valueOf(environment.getRequiredProperty("c3p0.minPoolSize")));
-        dataSource.setMaxPoolSize(Integer.valueOf(environment.getRequiredProperty("c3p0.maxPoolSize")));
-        dataSource.setCheckoutTimeout(Integer.valueOf(environment.getRequiredProperty("c3p0.timeout")));
-        dataSource.setMaxStatements(Integer.valueOf(environment.getRequiredProperty("c3p0.max_statements")));
-        dataSource.setIdleConnectionTestPeriod(Integer.valueOf(environment
-                .getRequiredProperty("c3p0.idle_test_period")));
         return dataSource;
     }
 
-    private Properties hibernateProperties() {
-        Properties properties = new Properties();
-        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto.test"));
-        properties.put("hibernate.hbm2ddl.import_files", environment
-                .getRequiredProperty("hibernate.hbm2ddl.import_files"));
-        properties.put("hibernate.hbm2ddl.import_files_sql_extractor",
-                environment.getRequiredProperty("hibernate.hbm2ddl.import_files_sql_extractor"));
-        return properties;
+    @Bean
+    protected Properties hibernateProperties() {
+        Properties properties = super.hibernateProperties();
+        properties.put("hibernate.hbm2ddl.auto",
+                environment.getRequiredProperty("hibernate.hbm2ddl.auto.test"));
+       return properties;
     }
 
     @Bean
-    @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory s) {
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(s);
-        return txManager;
+    PasswordEncoder passwordEncoder() {
+        return SpringSecurityConfig.passwordEncoder();
+    }
+
+    @Bean
+    UserService userService() {
+        return new UserServiceImp();
+    }
+
+    @Bean
+    CardService cardService() {
+        return new CardServiceImp();
+    }
+
+    @Bean
+    BillService billService() {
+        return new BillServiceImp();
     }
 }

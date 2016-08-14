@@ -1,7 +1,5 @@
 package com.epam.test;
 
-import com.epam.configuration.DatabaseConfiguration;
-import com.epam.configuration.SpringSecurityConfig;
 import com.epam.model.Bill;
 import com.epam.model.Card;
 import com.epam.model.User;
@@ -25,7 +23,7 @@ import static junit.framework.TestCase.*;
  * Tests for Bill Service
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestConfig.class, DatabaseConfiguration.class, SpringSecurityConfig.class})
+@ContextConfiguration(classes = {TestConfig.class})
 public class BillServiceTest {
     @Autowired
     private BillService billService;
@@ -36,34 +34,38 @@ public class BillServiceTest {
     public void blockBill(){
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.blockBill(bill.getId());
-        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1]).getActive());
+        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
+                .toArray()[1]).getActive());
     }
 
     @Test 
     public void unBlockBill(){
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.unBlockBill(bill.getId());
-        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1]).getActive());
+        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
+                .toArray()[1]).getActive());
     }
 
     @Test 
     public void restoreBill(){
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.restoreBill(bill.getId());
-        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1]).getDeleted());
+        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
+                .toArray()[1]).getDeleted());
     }
 
     @Test 
     public void deleteBill(){
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.deleteBill(bill.getId());
-        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1]).getDeleted());
+        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
+                .toArray()[1]).getDeleted());
     }
 
     @Test 
     public void getAllClientBills(){
-        List<Bill> bills = billService.getAllClientBills(((User) userService
-                .findByEmail(USER_SASHA2.getEmail())));
+        List<Bill> bills = billService.getAllClientBills(userService
+                .findByEmail(USER_SASHA2.getEmail()));
         assertTrue(bills.size() == 1);
     }
 

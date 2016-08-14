@@ -1,7 +1,5 @@
 package com.epam.test;
 
-import com.epam.configuration.DatabaseConfiguration;
-import com.epam.configuration.SpringSecurityConfig;
 import com.epam.model.Bill;
 import com.epam.model.Card;
 import com.epam.service.CardService;
@@ -22,7 +20,7 @@ import static junit.framework.TestCase.*;
  * Tests for Card Service
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestConfig.class, DatabaseConfiguration.class, SpringSecurityConfig.class})
+@ContextConfiguration(classes = {TestConfig.class})
 public class CardServiceTest {
     @Autowired
     private CardService cardService;

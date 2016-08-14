@@ -27,11 +27,13 @@ public class DatabaseConfiguration {
 	private Environment environment;
 
 	@Bean
-	public LocalSessionFactoryBean sessionFactory() throws PropertyVetoException {
+	@Autowired
+	public LocalSessionFactoryBean sessionFactory(DataSource dataSource,
+	  		Properties hibernateProperties) throws PropertyVetoException {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setPackagesToScan("com.epam.model");
-		sessionFactory.setHibernateProperties(hibernateProperties());
+		sessionFactory.setHibernateProperties(hibernateProperties);
 		return sessionFactory;
 	}
 
@@ -51,7 +53,8 @@ public class DatabaseConfiguration {
 		return dataSource;
 	}
 
-	private Properties hibernateProperties() {
+	@Bean
+	protected Properties hibernateProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
