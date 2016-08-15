@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="myTag" uri="/WEB-INF/tables.tld"%>
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,9 @@
 				<table>
 					<tr>
 						<td><spring:message code="login.label.username" />:</td>
-						<td><input type='text' name='username'></td>
+						<td><input type='text' name='username' required
+                            pattern="<spring:message code="email.pattern" />" >
+                        </td>
 					</tr>
 					<tr>
 						<td><spring:message code="login.label.password" />:</td>
