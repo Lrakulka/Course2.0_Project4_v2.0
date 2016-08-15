@@ -13,24 +13,10 @@
         </style>
 	</head>
 	<body>
-		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
-		<spring:message code="button.unblock" var="unblock" />
-		<spring:message code="button.block" var="block" />
-        <spring:message code="button.undelete" var="undelete" />
-        <spring:message code="button.delete" var="delete" />
-		<spring:message code="admin.label.blocked" var="blocked" />
-		<spring:message code="admin.label.unblocked" var="unblocked" />
-        <spring:message code="admin.label.deleted" var="deleted" />
+		<spring:message code="language.text" /> :
+        <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
 		<tables:clientsTable clients="${clients}"
-                             deleteButtonInfo="${delete}"
-                             unDeleteButtonInfo="${undelete}"
-							 blockButtonInfo="${block}"
-							 unBlockButtonInfo="${unblock}"
-							 textBlocked="${blocked}"
-							 textUnBlocked="${unblocked}"
-                             textDeleted = "${deleted}"
-							 parameterName="${_csrf.parameterName}"
-							 token="${_csrf.token}"
+                             csrf="${_csrf}"
 		/>
 
 		<c:url value="/logout" var="logoutUrl" />

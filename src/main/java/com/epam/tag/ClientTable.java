@@ -1,44 +1,30 @@
-/**
- * 
- */
 package com.epam.tag;
 
 import com.epam.model.Bill;
 import com.epam.model.Card;
 import lombok.Setter;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
-import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.List;
 
 /**
  * @author asd
  * Handling tag cardsTable
+ * Localization provided automatically by method getMessage.
  */
 @Setter
-public class ClientTable extends TagSupport {
+public class ClientTable extends RequestContextAwareTag {
     private static final long serialVersionUID = -3905900903200282870L;
 
     private List<Bill> bills;
-    private String parameterName;
-    private String token;
-    private String buttonFillInfo;
-    private String buttonMakePaymentInfo;
-    private String textBlocked;
-    private String textUnBlocked;
-    private String textDeleted;
-    private String blockButtonInfo;
-    private String unBlockButtonInfo;
-    private String deleteButtonInfo;
-    private String unDeleteButtonInfo;
-    private String cardName;
-    private String passName;
-    private String moneyName;
+    private CsrfToken csrf;
 
     @Override
-    public int doStartTag() {
+    public int doStartTagInternal() {
         StringBuilder tableBuilder = new StringBuilder(
-                "<table border=\"2\" cellpadding=\"8\">");
+                "<table border=2 cellpadding=8>");
         int i;
         for (Bill bill : bills) {
             i = 0;
@@ -56,50 +42,72 @@ public class ClientTable extends TagSupport {
                 if (i > 0) {
                     tableBuilder.append("<tr>");
                 }
-                tableBuilder.append("<td>" + card.getName());
-                tableBuilder.append(
-                        "<form name=\"ClientTable\" action=\"/actionWithClientCard\" " +
-                                "method=\"post\">" + "<input type=\"hidden\" name=\"" +
-                                parameterName + "\" value=\"" + token + "\" />");
+                tableBuilder.append("<td>" + card.getName() + "</td>");
                 if (card.getDeleted()) {
-                    tableBuilder.append("<td>" + textDeleted + "</td>");
+                    tableBuilder.append("<td>" + getMessage("client.label.deleted") + "</td>");
                 } else {
-                    tableBuilder.append("<td>" + (card.getActive() ? textUnBlocked : textBlocked) + "</td>");
+                    tableBuilder.append("<td>" + (card.getActive() 
+                            ? getMessage("client.label.unblocked")
+                            : getMessage("client.label.blocked")) + "</td>");
+                }
+
+                tableBuilder.append(
+                        "<td><form name=ClientTable action=/actionWithClientCard method=post>");
+                if (csrf != null) {
+                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
+                            + " value=" + csrf.getToken() + " />");
                 }
                 if (card.getActive()) {
-                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
-                            " value=\"" + card.getId() + "+block\">" + blockButtonInfo + "</button></td>");
+                    tableBuilder.append("<button name=actionAndCardId" +
+                            " value=" + card.getId() + "+block>" + getMessage("client.button.block")
+                            + "</button>");
                 } else {
-                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
-                            " value=\"" + card.getId() + "+unblock\">" + unBlockButtonInfo + "</button></td>");
+                    tableBuilder.append("<button name=actionAndCardId" +
+                            " value=" + card.getId() + "+unblock>" + getMessage("button.unblock")
+                            + "</button>");
+                }
+                tableBuilder.append("</form></td>");
+
+                tableBuilder.append(
+                        "<td><form name=ClientTable action=/actionWithClientCard method=post>");
+                if (csrf != null) {
+                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
+                            + " value=" + csrf.getToken() + " />");
                 }
                 if (card.getDeleted()) {
-                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
-                            " value=\"" + card.getId() + "+undelete\">" + unDeleteButtonInfo + "</button></td>");
+                    tableBuilder.append("<button name=actionAndCardId" +
+                            " value=" + card.getId() + "+undelete>" + getMessage("button.undelete")
+                            + "</button>");
                 } else {
-                    tableBuilder.append("<td><button name=\"actionAndCardId\"" +
-                            " value=\"" + card.getId() + "+delete\">" + deleteButtonInfo + "</button></td>");
+                    tableBuilder.append("<button name=actionAndCardId" +
+                            " value=" + card.getId() + "+delete>" + getMessage("button.delete")
+                            + "</button>");
                 }
-                tableBuilder.append("</form>");
-                tableBuilder.append("<td><form name=\"fillBill\" action=\"/fillClientBill\" " +
-                        "method=\"post\">" +
-                        "<input type=\"hidden\" name=\"" + parameterName +"\"" +
-                        "	value=\"" + token + "\" /><p>" +
-                        moneyName + ": <input size=\"10\" type=\"number\" step=\"0.01\" name=\"moneyCount\" /></p>" +
-                        "<button name=\"billId\" value=\"" +
-                        bill.getId() + "\">" + buttonFillInfo + "</button></form></td>" +
+                tableBuilder.append("</form></td>");
+
+                tableBuilder.append("<td><form name=fillBill action=/fillClientBill method=post>");
+                if (csrf != null) {
+                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
+                            + " value=" + csrf.getToken() + " />");
+                }
+                tableBuilder.append("<p>" + getMessage("client.label.moneyName") +
+                        ": <input size=10 type=number step=0.01 name=moneyCount /></p>" +
+                        "<button name=billId value=" +
+                        bill.getId() + ">" + getMessage("client.button.fill") +
+                        "</button></form></td>" +
                         // next form
-                        "<td><form name=\"sentMoney\" action=\"/sentMoney\" " +
-                        "method=\"post\">" +
-                        "<input type=\"hidden\" name=\"" + parameterName +"\"" +
-                        "	value=\"" + token + "\" />" +
-                        "<input type=\"hidden\" name=\"nativeCardId\"" +
-                        "	value=\"" + card.getId() + "\" /><p>" +
-                        cardName + ": <input size=\"6\" type=\"text\" name=\"cardName\" /></p><p>" +
-                        passName + ": <input size=\"6\" type=\"text\" name=\"passWord\" /></p><p>" +
-                        moneyName + ": <input size=\"10\" type=\"number\" step=\"0.01\" min = 0.01" +
-                        " name=\"moneyCount\" /></p><p><button name=\"billId\" value=\"" + bill.getId() + "\">" +
-                        buttonMakePaymentInfo + "</button></p></form></td>");
+                        "<td><form name=sentMoney action=/sentMoney method=post>");
+                if (csrf != null) {
+                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
+                            + " value=" + csrf.getToken() + " />");
+                }
+                tableBuilder.append("<input type=hidden name=nativeCardId" +
+                "	value=" + card.getId() + " /><p>" +
+                getMessage("client.label.cardName") + ": <input size=6 type=text name=cardName /></p><p>" +
+                getMessage("client.label.password") + ": <input size=6 type=text name=passWord /></p><p>" +
+                getMessage("client.label.moneyName") + ": <input size=10 type=number step=0.01 min = 0.01" +
+                " name=moneyCount /></p><p><button name=billId value=" + bill.getId() + ">" +
+                getMessage("client.button.sent") + "</button></p></form></td>");
                 i++;
                 if ((i > 0) && (i != bill.getCards().size())) {
                     tableBuilder.append("</tr>");
@@ -114,5 +122,15 @@ public class ClientTable extends TagSupport {
             e.printStackTrace();
         }
         return SKIP_BODY;
+    }
+
+    /**
+     * Get localized message
+     * @param code of the message
+     * @return localized message
+     */
+    private String getMessage(String code) {
+        return getRequestContext().getMessageSource().getMessage(
+                code, null, getRequestContext().getLocale());
     }
 }

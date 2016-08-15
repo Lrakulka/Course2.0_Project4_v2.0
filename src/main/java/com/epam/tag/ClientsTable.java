@@ -1,42 +1,35 @@
-/**
- * 
- */
 package com.epam.tag;
 
 import com.epam.model.Bill;
 import com.epam.model.User;
 import lombok.Setter;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
-import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.List;
 
 
 /**
  * @author asd
- * Handling tag clientTable
+ * Handling tag clientTable.
+ * Localization provided automatically by method getMessage.
  */
 @Setter
-public class ClientsTable extends TagSupport {
+public class ClientsTable extends RequestContextAwareTag {
     private static final long serialVersionUID = 8721266929256929800L;
 
     private List<User> clients;
-	private String blockButtonInfo;
-	private String unBlockButtonInfo;
-    private String deleteButtonInfo;
-    private String unDeleteButtonInfo;
-    private String parameterName;
-    private String token;
-    private String textBlocked;
-    private String textUnBlocked;
-    private String textDeleted;
-    
-    public int doStartTag() {
+    private CsrfToken csrf;
+
+    public int doStartTagInternal() {
 		StringBuilder tableBuilder = new StringBuilder(
-				"<form name=\"ClientsTable\" action=\"/actionWithClientBill\" " +
-						"method=\"post\">" + "<table border=\"2\" cellpadding=\"8\">" +
-						"<input type=\"hidden\" name=\"" + parameterName + "\"" +
-						"	value=\"" + token + "\" />");
+				"<form name=ClientsTable action=/actionWithClientBill " +
+						"method=post>" + "<table border=2 cellpadding=8>");
+        if (csrf != null) {
+            tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
+                    + " value=" + csrf.getToken() + " />");
+        }
 		int i;
 		for (User user : clients) {
 			i = 0;
@@ -55,23 +48,28 @@ public class ClientsTable extends TagSupport {
 				tableBuilder.append("<td>" + bill.getName() +
 						"</td><td>" + bill.getScore() + "</td>");
                 if (bill.getDeleted()) {
-                    tableBuilder.append("<td>" + textDeleted + "</td>");
+                    tableBuilder.append("<td>" + getMessage("admin.label.deleted") + "</td>");
                 } else {
-                    tableBuilder.append("<td>" + (bill.getActive() ? textUnBlocked : textBlocked) + "</td>");
+                    tableBuilder.append("<td>" + (bill.getActive() ? getMessage("admin.label.unblocked")
+                            : getMessage("admin.label.blocked")) + "</td>");
                 }
 				if (bill.getActive()) {
-					tableBuilder.append("<td><button name=\"actionAndBillId\"" +
-                            " value=\"" + bill.getId() + "+block\">" + blockButtonInfo + "</button></td>");
+					tableBuilder.append("<td><button name=actionAndBillId" +
+                            " value=" + bill.getId() + "+block>" + getMessage("button.block")
+                            + "</button></td>");
 				} else {
-					tableBuilder.append("<td><button name=\"actionAndBillId\"" +
-                            " value=\"" + bill.getId() + "+unblock\">" + unBlockButtonInfo + "</button></td>");
+					tableBuilder.append("<td><button name=actionAndBillId" +
+                            " value=" + bill.getId() + "+unblock>" + getMessage("button.unblock")
+                            + "</button></td>");
 				}
                 if (bill.getDeleted()) {
-                    tableBuilder.append("<td><button name=\"actionAndBillId\"" +
-                            " value=\"" + bill.getId() + "+undelete\">" + unDeleteButtonInfo + "</button></td>");
+                    tableBuilder.append("<td><button name=actionAndBillId" +
+                            " value=" + bill.getId() + "+undelete>" + getMessage("button.undelete")
+                            + "</button></td>");
                 } else {
-                    tableBuilder.append("<td><button name=\"actionAndBillId\"" +
-                            " value=\"" + bill.getId() + "+delete\">" + deleteButtonInfo + "</button></td>");
+                    tableBuilder.append("<td><button name=actionAndBillId" +
+                            " value=" + bill.getId() + "+delete>" + getMessage("button.delete")
+                            + "</button></td>");
                 }
 				i++;
 				if ((i > 0) && (i != user.getBills().size())) {
@@ -88,4 +86,14 @@ public class ClientsTable extends TagSupport {
 		}
 		return SKIP_BODY;
 	}
+
+    /**
+     * Get localized message
+     * @param code of the message
+     * @return localized message
+     */
+	private String getMessage(String code) {
+        return getRequestContext().getMessageSource().getMessage(
+                code, null, getRequestContext().getLocale());
+    }
 }

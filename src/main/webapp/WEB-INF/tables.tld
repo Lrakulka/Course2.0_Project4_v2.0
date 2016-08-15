@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
@@ -23,57 +22,9 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <name>deleteButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>unDeleteButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>textDeleted</name>
-            <required>true</required>
-            <description>Provide the localization for deleted bills</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>blockButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>unBlockButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>textBlocked</name>
-            <required>true</required>
-            <description>Msg if Blocked</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>textUnBlocked</name>
-            <required>true</required>
-            <description>Msg if not blocked</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>parameterName</name>
-            <required>true</required>
-            <description>Provide the csrf protection name</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>token</name>
-            <required>true</required>
-            <description>Provide the csrf protection token</description>
+            <name>csrf</name>
+            <required>false</required>
+            <description>Provide the csrf protection attribute</description>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
@@ -90,81 +41,9 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <name>moneyName</name>
-            <required>true</required>
-            <description>Provide the localization for money message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>cardName</name>
-            <required>true</required>
-            <description>Provide the localization for card message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>passName</name>
-            <required>true</required>
-            <description>Provide the localization for password message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>deleteButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>unDeleteButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>blockButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>unBlockButtonInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>buttonFillInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>buttonMakePaymentInfo</name>
-            <required>true</required>
-            <description>Provide the localization for button message</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>textBlocked</name>
-            <required>true</required>
-            <description>Msg if Blocked</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>textUnBlocked</name>
-            <required>true</required>
-            <description>Msg if not blocked</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>parameterName</name>
-            <required>true</required>
-            <description>Provide the csrf protection name</description>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>token</name>
-            <required>true</required>
-            <description>Provide the csrf protection token</description>
+            <name>csrf</name>
+            <required>false</required>
+            <description>Provide the csrf protection attribute</description>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
