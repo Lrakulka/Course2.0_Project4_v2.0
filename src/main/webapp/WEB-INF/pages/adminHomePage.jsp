@@ -38,6 +38,6 @@
 					href="javascript:formSubmit()"><spring:message code="admin.label.logout" /></a>
 			</h2>
 		</c:if>
-        <a href="/welcome"><spring:message code="label.welcom_room" /></a>
+        <a href="/welcome"><spring:message code="label.welcom_page" /></a>
 	</body>
 </html>
