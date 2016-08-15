@@ -32,11 +32,17 @@ public class ClientTable extends RequestContextAwareTag {
                 tableBuilder.append("<tr><td rowspan=" +
                         bill.getCards().size() + ">" +
                         bill.getName() + "</td><td rowspan=" +
-                        bill.getCards().size() + ">" + bill.getScore() + "</td>");
+                        bill.getCards().size() + ">" + bill.getScore() + "</td><td rowspan=" +
+                        bill.getCards().size() + ">" + (bill.getActive()
+                                ? getMessage("client.label.unblocked")
+                                : getMessage("client.label.blocked")) + "</td>");
             } else {
                 tableBuilder.append("<tr><td>" + bill.getName() +
                         "</td><td rowspan=" +
-                        bill.getCards().size() + ">" + bill.getScore() + "</td>");
+                        bill.getCards().size() + ">" + bill.getScore() + "</td><td rowspan=" +
+                        bill.getCards().size() + ">" + (bill.getActive()
+                                ? getMessage("client.label.unblocked")
+                                : getMessage("client.label.blocked")) + "</td>");
             }
             for (Card card : bill.getCards()) {
                 if (i > 0) {
@@ -57,15 +63,11 @@ public class ClientTable extends RequestContextAwareTag {
                     tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
                             + " value=" + csrf.getToken() + " />");
                 }
-                if (card.getActive()) {
-                    tableBuilder.append("<button name=actionAndCardId" +
-                            " value=" + card.getId() + "+block>" + getMessage("client.button.block")
-                            + "</button>");
-                } else {
-                    tableBuilder.append("<button name=actionAndCardId" +
-                            " value=" + card.getId() + "+unblock>" + getMessage("button.unblock")
-                            + "</button>");
-                }
+                tableBuilder.append("<button name=actionAndCardId" +
+                        " value=" + card.getId() + (card.getActive() ? "+block>"
+                            + getMessage("client.button.block") : "+unblock>"
+                            + getMessage("button.unblock"))
+                        + "</button>");
                 tableBuilder.append("</form></td>");
 
                 tableBuilder.append(
@@ -74,15 +76,11 @@ public class ClientTable extends RequestContextAwareTag {
                     tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
                             + " value=" + csrf.getToken() + " />");
                 }
-                if (card.getDeleted()) {
-                    tableBuilder.append("<button name=actionAndCardId" +
-                            " value=" + card.getId() + "+undelete>" + getMessage("button.undelete")
-                            + "</button>");
-                } else {
-                    tableBuilder.append("<button name=actionAndCardId" +
-                            " value=" + card.getId() + "+delete>" + getMessage("button.delete")
-                            + "</button>");
-                }
+                tableBuilder.append("<button name=actionAndCardId" +
+                        " value=" + card.getId() + (card.getDeleted() ? "+undelete>"
+                            + getMessage("button.undelete") : "+delete>"
+                            + getMessage("button.delete"))
+                        + "</button>");
                 tableBuilder.append("</form></td>");
 
                 tableBuilder.append("<td><form name=fillBill action=/fillClientBill method=post>");

@@ -53,24 +53,16 @@ public class ClientsTable extends RequestContextAwareTag {
                     tableBuilder.append("<td>" + (bill.getActive() ? getMessage("admin.label.unblocked")
                             : getMessage("admin.label.blocked")) + "</td>");
                 }
-				if (bill.getActive()) {
-					tableBuilder.append("<td><button name=actionAndBillId" +
-                            " value=" + bill.getId() + "+block>" + getMessage("button.block")
-                            + "</button></td>");
-				} else {
-					tableBuilder.append("<td><button name=actionAndBillId" +
-                            " value=" + bill.getId() + "+unblock>" + getMessage("button.unblock")
-                            + "</button></td>");
-				}
-                if (bill.getDeleted()) {
-                    tableBuilder.append("<td><button name=actionAndBillId" +
-                            " value=" + bill.getId() + "+undelete>" + getMessage("button.undelete")
-                            + "</button></td>");
-                } else {
-                    tableBuilder.append("<td><button name=actionAndBillId" +
-                            " value=" + bill.getId() + "+delete>" + getMessage("button.delete")
-                            + "</button></td>");
-                }
+                tableBuilder.append("<td><button name=actionAndBillId" +
+                        " value=" + bill.getId() + (bill.getActive() ? "+block>"
+                                + getMessage("button.block") : "+unblock>"
+                                + getMessage("button.unblock"))
+                        + "</button></td>");
+                tableBuilder.append("<td><button name=actionAndBillId" +
+                        " value=" + bill.getId() + (bill.getDeleted() ? "+undelete>"
+                                + getMessage("button.undelete") : "+delete>"
+                                + getMessage("button.delete"))
+                        + "</button></td>");
 				i++;
 				if ((i > 0) && (i != user.getBills().size())) {
 					tableBuilder.append("</tr>");
