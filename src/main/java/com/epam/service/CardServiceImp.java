@@ -1,6 +1,7 @@
 package com.epam.service;
 
 import com.epam.model.Card;
+import com.epam.model.User;
 import com.epam.repository.CardRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,34 @@ public class CardServiceImp implements CardService {
     @Autowired
     private CardRepository cardRepository;
 
+    public Card checkOwner(User owner, Integer cardId) {
+        Card card = cardRepository.findById(cardId);
+        if (card != null && card.getBill().getUser().equals(owner)) {
+            return card;
+        }
+        return null;
+    }
     @Override
-    public void doAction(String actionAndCardId) {
+    public void doAction(String actionAndCardId, User owner) {
         LOGGER.debug("actionAndCardId=" + actionAndCardId);
         int cardId = Integer.valueOf(actionAndCardId.substring(0, actionAndCardId.indexOf("+")));
         actionAndCardId = actionAndCardId.substring(actionAndCardId.indexOf("+") + 1, actionAndCardId.length());
-        switch (actionAndCardId) {
-            case DELETE : deleteCard(cardId);
-                break;
-            case UN_DELETE : restoreCard(cardId);
-                break;
-            case BLOCK : blockCard(cardId);
-                break;
-            case UN_BLOCK : unBlockCard(cardId);
+        if (checkOwner(owner, cardId) != null) {
+            switch (actionAndCardId) {
+                case DELETE:
+                    deleteCard(cardId);
+                    break;
+                case UN_DELETE:
+                    restoreCard(cardId);
+                    break;
+                case BLOCK:
+                    blockCard(cardId);
+                    break;
+                case UN_BLOCK:
+                    unBlockCard(cardId);
+            }
+        } else {
+            LOGGER.warn("actionAndCardId=" + actionAndCardId + " user is not a owner of card");
         }
     }
 

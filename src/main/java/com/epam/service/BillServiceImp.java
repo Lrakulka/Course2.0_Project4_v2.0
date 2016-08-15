@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -150,5 +151,11 @@ public class BillServiceImp implements BillService {
         exceptBill.setScore(exceptBill.getScore() + Math.abs(payment));
         billRepository.update(clientBill);
         billRepository.update(exceptBill);
+    }
+
+    @Override
+    public void blockBill(@NotNull Bill bill) {
+        bill.setActive(false);
+        billRepository.update(bill);
     }
 }

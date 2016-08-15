@@ -1,6 +1,7 @@
 package com.epam.service;
 
 import com.epam.model.Card;
+import com.epam.model.User;
 
 /**
  * Created by fg on 7/27/2016.
@@ -19,7 +20,7 @@ public interface CardService {
      * @see #BLOCK - block the card
      * @see #UN_BLOCK - activate the card
      */
-    void doAction(String actionAndCardId);
+    void doAction(String actionAndCardId, User owner);
 
     /**
      * Block card by its id

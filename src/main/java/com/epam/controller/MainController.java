@@ -132,12 +132,16 @@ public class MainController {
     public ModelAndView blockBill(@RequestParam("billId") Integer billId,
                                   Principal principal) {
         LOGGER.debug(principal + " block client bill");
+        ModelAndView modelAndView = new ModelAndView("redirect:/client");
         User user = userService.findByEmail(principal.getName());
         Bill bill = billService.getClientBill(user, billId);
         if (bill != null && user.getActive()) {
-            billService.blockBill(billId);
+            billService.blockBill(bill);
+        } else {
+            modelAndView.addObject("errMsg", "Impossible operation");
+            LOGGER.warn(principal + " bill blocking operation fails");
         }
-        return new ModelAndView("redirect:/client");
+        return modelAndView;
     }
 
     /**
@@ -166,7 +170,7 @@ public class MainController {
         LOGGER.debug(principal + " action with client card");
         User user = userService.findByEmail(principal.getName());
         if (user.getActive()) {
-            cardService.doAction(actionAndCardId);
+            cardService.doAction(actionAndCardId, user);
         }
         return new ModelAndView("redirect:/client");
     }
@@ -231,7 +235,7 @@ public class MainController {
             modelAndView.addObject("msgPass", "Password error");
             return modelAndView;
         }
-        if ((clientBill.getScore() > payment) && (payment > 0)) {
+        if ((clientBill.getScore() >= payment) && (payment > 0)) {
             billService.makePayment(clientBill, exceptCard, payment);
         } else {
             LOGGER.warn(principal + " Not enough money");

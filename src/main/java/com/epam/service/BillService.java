@@ -90,4 +90,6 @@ public interface BillService {
      * @param payment - money which need to send
      */
     void makePayment(Bill clientBill, Card exceptCard, Double payment);
+
+    void blockBill(Bill bill);
 }
