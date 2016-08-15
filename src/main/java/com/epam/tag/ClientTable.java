@@ -104,7 +104,7 @@ public class ClientTable extends RequestContextAwareTag {
                 tableBuilder.append("<input type=hidden name=nativeCardId" +
                 "	value=" + card.getId() + " /><p>" +
                 getMessage("client.label.cardName") + ": <input size=6 type=text name=cardName /></p><p>" +
-                getMessage("client.label.password") + ": <input size=6 type=text name=passWord /></p><p>" +
+                getMessage("client.label.password") + ": <input size=6 type=password name=passWord /></p><p>" +
                 getMessage("client.label.moneyName") + ": <input size=10 type=number step=0.01 min = 0.01" +
                 " name=moneyCount /></p><p><button name=billId value=" + bill.getId() + ">" +
                 getMessage("client.button.sent") + "</button></p></form></td>");
