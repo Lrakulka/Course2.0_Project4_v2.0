@@ -34,15 +34,23 @@ public class ClientTable extends RequestContextAwareTag {
                         bill.getName() + "</td><td rowspan=" +
                         bill.getCards().size() + ">" + bill.getScore() + "</td><td rowspan=" +
                         bill.getCards().size() + ">" + (bill.getActive()
-                                ? getMessage("client.label.unblocked")
-                                : getMessage("client.label.blocked")) + "</td>");
+                            ? "<form name=blockBill action=/blockBill " +
+                                "method=post><button name=billId" +
+                                " value=" + bill.getId() + " >" +
+                                getMessage("button.block") + "</button>" +
+                                csrfToken() +"</form>"
+                            : getMessage("client.label.blocked")) + "</td>");
             } else {
                 tableBuilder.append("<tr><td>" + bill.getName() +
                         "</td><td rowspan=" +
                         bill.getCards().size() + ">" + bill.getScore() + "</td><td rowspan=" +
                         bill.getCards().size() + ">" + (bill.getActive()
-                                ? getMessage("client.label.unblocked")
-                                : getMessage("client.label.blocked")) + "</td>");
+                            ? "<form name=blockBill action=/blockBill " +
+                                "method=post><button name=billId" +
+                                " value=" + bill.getId() + " >" +
+                                getMessage("button.block") + "</button>" +
+                                csrfToken() + "</form>"
+                            : getMessage("client.label.blocked")) + "</td>");
             }
             for (Card card : bill.getCards()) {
                 if (i > 0) {
@@ -72,10 +80,7 @@ public class ClientTable extends RequestContextAwareTag {
 
                 tableBuilder.append(
                         "<td><form name=ClientTable action=/actionWithClientCard method=post>");
-                if (csrf != null) {
-                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
-                            + " value=" + csrf.getToken() + " />");
-                }
+                tableBuilder.append(csrfToken());
                 tableBuilder.append("<button name=actionAndCardId" +
                         " value=" + card.getId() + (card.getDeleted() ? "+undelete>"
                             + getMessage("button.undelete") : "+delete>"
@@ -84,10 +89,7 @@ public class ClientTable extends RequestContextAwareTag {
                 tableBuilder.append("</form></td>");
 
                 tableBuilder.append("<td><form name=fillBill action=/fillClientBill method=post>");
-                if (csrf != null) {
-                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
-                            + " value=" + csrf.getToken() + " />");
-                }
+                tableBuilder.append(csrfToken());
                 tableBuilder.append("<p>" + getMessage("client.label.moneyName") +
                         ": <input size=10 type=number step=0.01 name=moneyCount /></p>" +
                         "<button name=billId value=" +
@@ -95,10 +97,7 @@ public class ClientTable extends RequestContextAwareTag {
                         "</button></form></td>" +
                         // next form
                         "<td><form name=sentMoney action=/sentMoney method=post>");
-                if (csrf != null) {
-                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
-                            + " value=" + csrf.getToken() + " />");
-                }
+                tableBuilder.append(csrfToken());
                 tableBuilder.append("<input type=hidden name=nativeCardId" +
                 "	value=" + card.getId() + " /><p>" +
                 getMessage("client.label.cardName") + ": <input size=6 type=text name=cardName /></p><p>" +
@@ -120,6 +119,18 @@ public class ClientTable extends RequestContextAwareTag {
             e.printStackTrace();
         }
         return SKIP_BODY;
+    }
+
+    /**
+     * Create hidden input with csrf token
+     * @return if csrf not null return hidden input with csrf token if also empty line
+     */
+    private String csrfToken() {
+        if (csrf != null) {
+            return "<input type=hidden name=" + csrf.getParameterName()
+                    + " value=" + csrf.getToken() + " />";
+        }
+        return "";
     }
 
     /**

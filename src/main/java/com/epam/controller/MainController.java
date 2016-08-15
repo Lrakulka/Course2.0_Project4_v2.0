@@ -8,14 +8,19 @@ import com.epam.service.CardService;
 import com.epam.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.security.Principal;
+import java.util.Locale;
+
+import static com.epam.service.BillService.BLOCK;
 
 /**
  * Created by fg on 7/27/2016.
@@ -114,7 +119,25 @@ public class MainController {
         if (user.getActive()) {
             billService.doAction(actionAndBillId);
         }
-            return new ModelAndView("redirect:/admin");
+        return new ModelAndView("redirect:/admin");
+    }
+
+    /**
+     * Block client bill
+     * @param billId if of blocking bill
+     * @param principal - user data
+     * @return client page
+     */
+    @RequestMapping(value = "/blockBill", method = RequestMethod.POST)
+    public ModelAndView blockBill(@RequestParam("billId") Integer billId,
+                                  Principal principal) {
+        LOGGER.debug(principal + " block client bill");
+        User user = userService.findByEmail(principal.getName());
+        Bill bill = billService.getClientBill(user, billId);
+        if (bill != null && user.getActive()) {
+            billService.blockBill(billId);
+        }
+        return new ModelAndView("redirect:/client");
     }
 
     /**
@@ -162,7 +185,7 @@ public class MainController {
         LOGGER.debug(principal + " fill client bill");
         ModelAndView modelAndView = new ModelAndView("redirect:/client");
         if (!billService.fillBill(principal.getName(), billId, money)) {
-            modelAndView.addObject("errMsg", "Incorrect data");
+            modelAndView.addObject("errMsg", "Impossible operation");
         }
         return modelAndView;
     }
@@ -184,7 +207,7 @@ public class MainController {
                                           @RequestParam("passWord") String password,
                                           Principal principal) {
         LOGGER.debug(principal + " sent money");
-        ModelAndView modelAndView = new ModelAndView("redirect:/client"); //new ModelAndView("redirect:/client");
+        ModelAndView modelAndView = new ModelAndView("redirect:/client");
         User user = userService.findByEmail(principal.getName());
         Card exceptCard = cardService.findByName(cardName);
         if (exceptCard == null) {
@@ -196,6 +219,11 @@ public class MainController {
         if (clientBill == null) {
             LOGGER.warn(principal + " You have no such bill");
             modelAndView.addObject("msgBill", "You have no such bill");
+            return modelAndView;
+        }
+        if (!clientBill.getActive()) {
+            LOGGER.warn(principal + " Your bill is blocked");
+            modelAndView.addObject("msgBillBlocked", "Your bill is blocked");
             return modelAndView;
         }
         if (billService.checkPassword(clientBill, nativeCardId, password)) {
@@ -217,10 +245,10 @@ public class MainController {
      * @param exception - thrown exception
      * @return View of error page
      */
-    /*@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
         LOGGER.error(exception);
         ModelAndView modelAndView = new ModelAndView("brokenPage");
         return modelAndView;
-    }*/
+    }
 }

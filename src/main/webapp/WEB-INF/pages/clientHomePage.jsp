@@ -32,6 +32,9 @@
 		<c:if test="${not empty param.msgMon}">
 			<div class="error"><spring:message code="client.label.msgMoney" /></div>
 		</c:if>
+        <c:if test="${not empty param.msgBillBlocked}">
+            <div class="error"><spring:message code="client.label.msgBillBlocked" /></div>
+        </c:if>
 
 		<c:url value="/logout" var="logoutUrl" />
 		<!-- csrt for log out-->

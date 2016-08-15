@@ -109,7 +109,7 @@ public class BillServiceImp implements BillService {
     public boolean fillBill(String userEmail, Integer billId, Double money) {
         LOGGER.debug("Fill bill");
         Bill bill = billRepository.findById(billId);
-        if (bill != null && bill.getUser().getEmail().equals(userEmail)) {
+        if (bill != null && bill.getActive() && bill.getUser().getEmail().equals(userEmail)) {
             bill.setScore(money + bill.getScore());
             billRepository.update(bill);
             return true;
