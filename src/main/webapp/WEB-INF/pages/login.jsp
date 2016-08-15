@@ -32,7 +32,7 @@
 					<tr>
 						<td><spring:message code="login.label.username" />:</td>
 						<td><input type='text' name='username' required
-                            pattern="<spring:message code="email.pattern" />" >
+                            pattern="<spring:message code="email.pattern" />" />
                         </td>
 					</tr>
 					<tr>
