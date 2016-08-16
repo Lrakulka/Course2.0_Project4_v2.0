@@ -28,7 +28,7 @@ public class CardServiceTest {
     private UserService userService;
 
     @Test 
-    public void blockCard(){
+    public void blockCard() {
         Card card = (Card) ((Bill) userService.findByEmail(USER_MASHA.getEmail())
                 .getBills().toArray()[0]).getCards().toArray()[0];
         cardService.blockCard(card.getId());
@@ -37,7 +37,7 @@ public class CardServiceTest {
     }
 
     @Test 
-    public void unBlockCard(){
+    public void unBlockCard() {
         Card card = (Card) ((Bill) userService.findByEmail(USER_MASHA.getEmail())
                 .getBills().toArray()[0]).getCards().toArray()[0];
         cardService.unBlockCard(card.getId());
@@ -46,7 +46,7 @@ public class CardServiceTest {
     }
 
     @Test
-    public void restoreCard(){
+    public void restoreCard() {
         Card card = (Card) ((Bill) userService.findByEmail(USER_MASHA.getEmail())
                 .getBills().toArray()[0]).getCards().toArray()[0];
         cardService.restoreCard(card.getId());
@@ -55,7 +55,7 @@ public class CardServiceTest {
     }
 
     @Test
-    public void deleteCard(){
+    public void deleteCard() {
         Card card = (Card) ((Bill) userService.findByEmail(USER_MASHA.getEmail())
                 .getBills().toArray()[0]).getCards().toArray()[0];
         cardService.deleteCard(card.getId());
@@ -64,7 +64,7 @@ public class CardServiceTest {
     }
 
     @Test
-    public void findByName(){
+    public void findByName() {
         assertNotNull(cardService.findByName(CARD1.getName()));
     }
 }

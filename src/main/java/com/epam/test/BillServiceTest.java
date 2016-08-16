@@ -31,7 +31,7 @@ public class BillServiceTest {
     private UserService userService;
 
     @Test 
-    public void blockBill(){
+    public void blockBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.blockBill(bill.getId());
         assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
@@ -39,7 +39,7 @@ public class BillServiceTest {
     }
 
     @Test 
-    public void unBlockBill(){
+    public void unBlockBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.unBlockBill(bill.getId());
         assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
@@ -47,7 +47,7 @@ public class BillServiceTest {
     }
 
     @Test 
-    public void restoreBill(){
+    public void restoreBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.restoreBill(bill.getId());
         assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
@@ -55,7 +55,7 @@ public class BillServiceTest {
     }
 
     @Test 
-    public void deleteBill(){
+    public void deleteBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.deleteBill(bill.getId());
         assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
@@ -63,14 +63,14 @@ public class BillServiceTest {
     }
 
     @Test 
-    public void getAllClientBills(){
+    public void getAllClientBills() {
         List<Bill> bills = billService.getAllClientBills(userService
                 .findByEmail(USER_SASHA2.getEmail()));
         assertTrue(bills.size() == 1);
     }
 
     @Test 
-    public void fillBill(){
+    public void fillBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills().toArray()[0];
         double score = bill.getScore() + 100;
         billService.fillBill(USER_SASHA2.getEmail(), bill.getId(), 100d);
@@ -79,14 +79,14 @@ public class BillServiceTest {
     }
 
     @Test 
-    public void getClientBill(){
+    public void getClientBill() {
         User user = userService.findByEmail(USER_SASHA.getEmail());
         Bill bill = billService.getClientBill(user, ((Bill) user.getBills().toArray()[0]).getId());
         assertNotNull(bill);
     }
 
     @Test 
-    public void makePayment(){
+    public void makePayment() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills().toArray()[0];
         Double p = bill.getScore();
         billService.makePayment(bill, ((Card) bill.getCards().toArray()[0]), 1d);
