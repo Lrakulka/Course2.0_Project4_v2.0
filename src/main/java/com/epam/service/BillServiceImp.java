@@ -113,7 +113,7 @@ public class BillServiceImp implements BillService {
     public boolean fillBill(Integer billId, Double money) {
         LOGGER.debug("Fill bill");
         Bill bill = billRepository.findById(billId);
-        if (bill != null) {
+        if (bill != null && bill.getActive() && !bill.getDeleted()) {
             bill.setScore(money + bill.getScore());
             billRepository.update(bill);
             return true;
@@ -138,7 +138,9 @@ public class BillServiceImp implements BillService {
         Bill exceptBill = billRepository.findById(exceptBillId);
         Bill clientBill = billRepository.findById(clientBillId);
         if ((exceptBill != null) && (clientBill != null)
-                && (clientBill.getScore() >= payment) && (payment > 0)) {
+                && (clientBill.getScore() >= payment) && (payment > 0)
+                && exceptBill.getActive() && clientBill.getActive()
+                && !exceptBill.getDeleted() && !exceptBill.getDeleted()) {
             clientBill.setScore(clientBill.getScore() - Math.abs(payment));
             exceptBill.setScore(exceptBill.getScore() + Math.abs(payment));
             billRepository.update(clientBill);
