@@ -60,7 +60,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Allows to change the current locale on every request via a configurable request parameter.
+     * Allows to change the current locale on every request
+     * via a configurable request parameter.
      */
     @Bean
     public LocaleChangeInterceptor localeInterceptor(){
