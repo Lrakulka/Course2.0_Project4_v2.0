@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by fg on 7/27/2016.
+ * Business logic for user
  */
 
 public interface UserService {

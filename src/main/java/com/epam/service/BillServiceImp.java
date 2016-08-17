@@ -10,25 +10,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Created by fg on 7/27/2016.
+ * Implementation of BillService
  */
 @Service
 @Transactional
 public class BillServiceImp implements BillService {
     private static final Logger LOGGER = Logger.getLogger(BillServiceImp.class);
 
-    @Autowired
     private BillRepository billRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public BillServiceImp(BillRepository billRepository, PasswordEncoder passwordEncoder) {
+        this.billRepository = billRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void doAction(String actionAndBillId) {
@@ -51,6 +51,7 @@ public class BillServiceImp implements BillService {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
             bill.setActive(false);
+            bill.getCards().forEach(card -> card.setActive(false));
             billRepository.update(bill);
         }
     }
@@ -71,6 +72,7 @@ public class BillServiceImp implements BillService {
         if (bill != null) {
             LOGGER.warn("restoreBill failed");
             bill.setDeleted(false);
+            bill.getCards().forEach(card -> card.setDeleted(false));
             billRepository.update(bill);
         }
     }
@@ -81,6 +83,7 @@ public class BillServiceImp implements BillService {
         if (bill != null) {
             LOGGER.warn("deleteBill failed");
             bill.setDeleted(true);
+            bill.getCards().forEach(card -> card.setDeleted(true));
             billRepository.update(bill);
         }
     }
@@ -160,14 +163,9 @@ public class BillServiceImp implements BillService {
     @Override
     public boolean checkCardPass(Bill clientBill, Integer cardId, String password) {
         LOGGER.debug("check card password");
-        Card card;
-        try {
-            card = clientBill.getCards().stream().filter(c -> c.getId()
-                    .equals(cardId)).findFirst().get();
-        } catch (NoSuchElementException e) {
-            LOGGER.warn("password check failed");
-            return false;
-        }
-        return card.getPassword().equals(passwordEncoder.encode(password));
+        Optional<Card> cardOptional = clientBill.getCards().stream().filter(c -> c.getId()
+                    .equals(cardId)).findFirst();
+        return cardOptional.isPresent() && cardOptional.get()
+                .getPassword().equals(passwordEncoder.encode(password));
     }
 }

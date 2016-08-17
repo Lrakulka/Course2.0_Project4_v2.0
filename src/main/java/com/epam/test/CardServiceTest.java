@@ -22,12 +22,21 @@ import static junit.framework.TestCase.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
 public class CardServiceTest {
-    @Autowired
+
     private CardService cardService;
-    @Autowired
     private UserService userService;
 
-    @Test 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setCardService(CardService cardService) {
+        this.cardService = cardService;
+    }
+
+    @Test
     public void blockCard() {
         Card card = (Card) ((Bill) userService.findByEmail(USER_MASHA.getEmail())
                 .getBills().toArray()[0]).getCards().toArray()[0];

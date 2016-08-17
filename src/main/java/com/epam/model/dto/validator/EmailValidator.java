@@ -15,13 +15,16 @@ import java.util.regex.Pattern;
  */
 
 class EmailValidator implements ConstraintValidator<ValidEmail, String> {
-    @Autowired
-    private Environment environment;
+    private static final String EMAIL_PATTERN = "email.pattern";
 
+    private Environment environment;
     private Pattern pattern;
     private Matcher matcher;
 
-    private static final String EMAIL_PATTERN = "email.pattern";
+    @Autowired
+    public EmailValidator(Environment environment) {
+        this.environment = environment;
+    }
 
     @Override
     public void initialize(ValidEmail constraintAnnotation) {}

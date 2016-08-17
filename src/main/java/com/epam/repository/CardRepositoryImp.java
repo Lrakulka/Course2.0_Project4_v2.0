@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by fg on 7/24/2016.
+ * Realisation of card DAO
  */
 @Repository
 public class CardRepositoryImp extends AbstractRepository<Card> implements CardRepository {

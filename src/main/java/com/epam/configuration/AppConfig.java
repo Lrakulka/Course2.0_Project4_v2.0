@@ -14,6 +14,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Locale;
 
+/**
+ * Common configuration for application
+ */
 @EnableWebMvc
 @Configuration
 @ComponentScan({ "com.epam.*" })

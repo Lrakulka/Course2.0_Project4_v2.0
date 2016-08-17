@@ -11,15 +11,21 @@ import javax.transaction.Transactional;
 
 /**
  * Created by fg on 7/27/2016.
+ * Implementation of card Business logic
  */
 @Service
 @Transactional
 public class CardServiceImp implements CardService {
     private static final Logger LOGGER = Logger.getLogger(CardServiceImp.class);
 
-    @Autowired
     private CardRepository cardRepository;
 
+    @Autowired
+    public CardServiceImp(CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
+    }
+
+    @Override
     public Card checkOwner(User owner, Integer cardId) {
         Card card = cardRepository.findById(cardId);
         if (card != null && card.getBill().getUser().equals(owner)) {
@@ -27,6 +33,7 @@ public class CardServiceImp implements CardService {
         }
         return null;
     }
+
     @Override
     public void doAction(String actionAndCardId, User owner) {
         LOGGER.debug("actionAndCardId=" + actionAndCardId);

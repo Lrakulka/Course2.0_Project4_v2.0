@@ -25,12 +25,17 @@ import java.security.Principal;
 public class MainController {
     private static final Logger LOGGER = Logger.getLogger(MainController.class);
 
-    @Autowired
     private UserService userService;
-    @Autowired
     private CardService cardService;
-    @Autowired
     private BillService billService;
+
+    @Autowired
+    public MainController(UserService userService, CardService cardService,
+                          BillService billService) {
+        this.userService = userService;
+        this.cardService = cardService;
+        this.billService = billService;
+    }
 
     /**
      * Default page.
@@ -207,7 +212,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("redirect:/client");
         User user = userService.findByEmail(principal.getName());
         Card exceptCard = cardService.findByName(cardName);
-        if (exceptCard == null) {
+        if (exceptCard == null || exceptCard.getDeleted() || !exceptCard.getActive()) {
             LOGGER.warn(principal + " Card with such name doesn't exist");
             modelAndView.addObject("msgCard", "The card with such name doesn't exist");
             return modelAndView;
@@ -243,7 +248,6 @@ public class MainController {
     @ExceptionHandler(Exception.class)
     public ModelAndView handleIOException(Exception exception) {
         LOGGER.error(exception);
-        ModelAndView modelAndView = new ModelAndView("brokenPage");
-        return modelAndView;
+        return new ModelAndView("brokenPage");
     }
 }

@@ -1,8 +1,6 @@
 package com.epam.repository;
 
 import com.epam.model.User;
-import com.epam.model.UserRole;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by fg on 7/24/2016.
+ * Realisation of user DAO
  */
 @Repository
 public class UserRepositoryImp extends AbstractRepository<User> implements UserRepository {
@@ -38,11 +37,9 @@ public class UserRepositoryImp extends AbstractRepository<User> implements UserR
         return super.findByProperty("email", email);
     }
 
-    private static final UserRole client = new UserRole();
     @Override
     public List<User> getAllClients() {
-        Criteria criteria = getCriteria();
-        return criteria.createAlias("userRoles", "u")
+        return getCriteria().createAlias("userRoles", "u")
                 .add( Restrictions.eq("u.role", "ROLE_CLIENT") )
                 .list();
     }

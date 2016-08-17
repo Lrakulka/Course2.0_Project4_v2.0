@@ -134,6 +134,11 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>${javax.servlet-api.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>RELEASE</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -14,16 +14,24 @@ import javax.servlet.http.HttpSession;
 public class ListenerServiceImp implements
         ApplicationListener<ApplicationEvent> {
 
-    @Autowired
     private HttpSession session;
-    @Autowired
     private UserService userService;
 
+    @Autowired
+    public ListenerServiceImp(HttpSession session, UserService userService) {
+        this.session = session;
+        this.userService = userService;
+    }
+
+    /**
+     * Listen user authorization and attach user data to session
+     * @param event - app events
+     */
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof InteractiveAuthenticationSuccessEvent) {
-            String email = ((UserDetails) ((InteractiveAuthenticationSuccessEvent) event).getAuthentication()
-                    .getPrincipal()).getUsername();
+            String email = ((UserDetails) ((InteractiveAuthenticationSuccessEvent) event)
+                    .getAuthentication().getPrincipal()).getUsername();
             User user = userService.findByEmail(email);
             session.setAttribute("userName", new StringBuilder(user.getFirstName()).append(" ")
                     .append(userService.findByEmail(email).getLastName()));

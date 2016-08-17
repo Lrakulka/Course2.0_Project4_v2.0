@@ -2,6 +2,9 @@ package com.epam.test.configuration;
 
 import com.epam.configuration.DatabaseConfiguration;
 import com.epam.configuration.SpringSecurityConfig;
+import com.epam.repository.BillRepository;
+import com.epam.repository.CardRepository;
+import com.epam.repository.UserRepository;
 import com.epam.service.*;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +47,20 @@ public class TestConfig extends DatabaseConfiguration {
     }
 
     @Bean
-    UserService userService() {
-        return new UserServiceImp();
+    @Autowired
+    UserService userService(UserRepository userRepository) {
+        return new UserServiceImp(userRepository);
     }
 
     @Bean
-    CardService cardService() {
-        return new CardServiceImp();
+    @Autowired
+    CardService cardService(CardRepository cardRepository) {
+        return new CardServiceImp(cardRepository);
     }
 
     @Bean
-    BillService billService() {
-        return new BillServiceImp();
+    @Autowired
+    BillService billService(BillRepository billRepository, PasswordEncoder passwordEncoder) {
+        return new BillServiceImp(billRepository, passwordEncoder);
     }
 }

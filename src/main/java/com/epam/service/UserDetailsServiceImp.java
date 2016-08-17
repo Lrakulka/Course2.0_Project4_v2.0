@@ -25,8 +25,12 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImp implements UserDetailsService {
     private static final Logger LOGGER = Logger.getLogger(UserDetailsServiceImp.class);
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserDetailsServiceImp(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(final String userEmail)
@@ -59,20 +63,18 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     /**
      * Builds actor authority
-     *
      * @param userRoles - list of actor roles in system
      * @return list of actor authority in system
      */
     private List<GrantedAuthority> buildActorAuthority(final Set<UserRole> userRoles) {
         LOGGER.info(new StringBuilder("Entering userRolesCount=").
                 append(userRoles.size()));
-        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> setAuths = new HashSet<>();
         // Build actor's authorities
         setAuths.addAll(userRoles.stream().map(actorRole ->
                 new SimpleGrantedAuthority(actorRole.getRole())).collect(Collectors.toList()));
-        List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(setAuths);
-        LOGGER.info(new StringBuilder("Leaving ResultCount=").
-                append(result.size()));
+        List<GrantedAuthority> result = new ArrayList<>(setAuths);
+        LOGGER.info(new StringBuilder("Leaving ResultCount=").append(result.size()));
         return result;
     }
 }

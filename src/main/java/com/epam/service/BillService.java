@@ -1,10 +1,8 @@
 package com.epam.service;
 
 import com.epam.model.Bill;
-import com.epam.model.Card;
 import com.epam.model.User;
 
-import java.security.Principal;
 import java.util.List;
 
 /**
@@ -79,7 +77,7 @@ public interface BillService {
      * @param clientBill - bill
      * @param nativeCardId - id of the card which belong to the bill
      * @param password - the card password
-     * @return
+     * @return true id check passed, false if not
      */
     boolean checkCardPass(Bill clientBill, Integer nativeCardId, String password);
 

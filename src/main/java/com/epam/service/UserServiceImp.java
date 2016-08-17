@@ -14,14 +14,19 @@ import java.util.List;
 
 /**
  * Created by fg on 7/27/2016.
+ * Implementation of user business logic
  */
 @Service
 @Transactional
 public class UserServiceImp implements UserService {
     private static final Logger LOGGER = Logger.getLogger(UserServiceImp.class);
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImp(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User findByEmail(String email) {

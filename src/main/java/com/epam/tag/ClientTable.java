@@ -20,91 +20,97 @@ public class ClientTable extends RequestContextAwareTag {
 
     private List<Bill> bills;
     private CsrfToken csrf;
-
+    private String csrfInput;
+    
     @Override
     public int doStartTagInternal() {
-        StringBuilder tableBuilder = new StringBuilder(
-                "<table border=2 cellpadding=8>");
+        csrfInput = "";
+        StringBuilder tableBuilder = new StringBuilder("<table border=2 cellpadding=8>");
         int i;
         for (Bill bill : bills) {
             i = 0;
             if (bill.getCards().size() > 1) {
-                tableBuilder.append("<tr><td rowspan=" +
-                        bill.getCards().size() + ">" +
-                        bill.getName() + "</td><td rowspan=" +
-                        bill.getCards().size() + ">" + bill.getScore() + "</td><td rowspan=" +
-                        bill.getCards().size() + ">" + (bill.getActive()
+                tableBuilder.append("<tr><td rowspan=")
+                        .append(bill.getCards().size()).append(">")
+                        .append(bill.getName()).append("</td><td rowspan=")
+                        .append(bill.getCards().size()).append(">")
+                        .append(bill.getScore()).append("</td><td rowspan=")
+                        .append(bill.getCards().size()).append(">")
+                        .append(bill.getActive()
                             ? "<form name=blockBill action=/blockBill " +
-                                "method=post><button name=billId" +
-                                " value=" + bill.getId() + " >" +
+                              "method=post><button name=billId" +
+                              " value=" + bill.getId() + " >" +
                                 getMessage("button.block") + "</button>" +
                                 csrfToken() +"</form>"
-                            : getMessage("client.label.blocked")) + "</td>");
+                            : getMessage("client.label.blocked"))
+                        .append( "</td>");
             } else {
-                tableBuilder.append("<tr><td>" + bill.getName() +
-                        "</td><td rowspan=" +
-                        bill.getCards().size() + ">" + bill.getScore() + "</td><td rowspan=" +
-                        bill.getCards().size() + ">" + (bill.getActive()
+                tableBuilder.append("<tr><td>").append( bill.getName())
+                        .append("</td><td rowspan=").append(bill.getCards().size()).append(">")
+                        .append(bill.getScore()).append("</td><td rowspan=")
+                        .append(bill.getCards().size()).append( ">")
+                        .append(bill.getActive()
                             ? "<form name=blockBill action=/blockBill " +
-                                "method=post><button name=billId" +
-                                " value=" + bill.getId() + " >" +
+                              "method=post><button name=billId" +
+                              " value=" + bill.getId() + " >" +
                                 getMessage("button.block") + "</button>" +
                                 csrfToken() + "</form>"
-                            : getMessage("client.label.blocked")) + "</td>");
+                            : getMessage("client.label.blocked"))
+                        .append( "</td>");
             }
             for (Card card : bill.getCards()) {
                 if (i > 0) {
                     tableBuilder.append("<tr>");
                 }
-                tableBuilder.append("<td>" + card.getName() + "</td>");
+                tableBuilder.append("<td>").append(card.getName()).append( "</td>");
                 if (card.getDeleted()) {
-                    tableBuilder.append("<td>" + getMessage("client.label.deleted") + "</td>");
+                    tableBuilder.append("<td>").append(getMessage("client.label.deleted"))
+                            .append( "</td>");
                 } else {
-                    tableBuilder.append("<td>" + (card.getActive() 
-                            ? getMessage("client.label.unblocked")
-                            : getMessage("client.label.blocked")) + "</td>");
+                    tableBuilder.append("<td>").append((card.getActive()
+                                ? getMessage("client.label.unblocked")
+                                : getMessage("client.label.blocked")))
+                            .append( "</td>");
                 }
+                tableBuilder
+                        .append("<td><form name=ClientTable action=/actionWithClientCard method=post>")
+                        .append(csrfToken())
+                        .append("<button name=actionAndCardId").append(" value=")
+                        .append( card.getId()).append(card.getActive()
+                            ? "+block>" + getMessage("client.button.block")
+                            : "+unblock>" + getMessage("button.unblock"))
+                        .append( "</button>").append("</form></td>");
 
                 tableBuilder.append(
-                        "<td><form name=ClientTable action=/actionWithClientCard method=post>");
-                if (csrf != null) {
-                    tableBuilder.append("<input type=hidden name=" + csrf.getParameterName()
-                            + " value=" + csrf.getToken() + " />");
-                }
-                tableBuilder.append("<button name=actionAndCardId" +
-                        " value=" + card.getId() + (card.getActive() ? "+block>"
-                            + getMessage("client.button.block") : "+unblock>"
-                            + getMessage("button.unblock"))
-                        + "</button>");
-                tableBuilder.append("</form></td>");
+                        "<td><form name=ClientTable action=/actionWithClientCard method=post>")
+                        .append(csrfToken())
+                        .append("<button name=actionAndCardId").append(" value=")
+                        .append(card.getId()).append(card.getDeleted()
+                                    ? "+undelete>" + getMessage("button.undelete")
+                                    : "+delete>" + getMessage("button.delete"))
+                        .append( "</button>").append("</form></td>");
 
-                tableBuilder.append(
-                        "<td><form name=ClientTable action=/actionWithClientCard method=post>");
-                tableBuilder.append(csrfToken());
-                tableBuilder.append("<button name=actionAndCardId" +
-                        " value=" + card.getId() + (card.getDeleted() ? "+undelete>"
-                            + getMessage("button.undelete") : "+delete>"
-                            + getMessage("button.delete"))
-                        + "</button>");
-                tableBuilder.append("</form></td>");
+                tableBuilder.append("<td><form name=fillBill action=/fillClientBill method=post>")
+                        .append(csrfToken())
+                        .append("<p>").append( getMessage("client.label.moneyName"))
+                        .append(": <input size=10 type=number step=0.01 name=moneyCount /></p>")
+                        .append("<button name=billId value=").append(bill.getId())
+                        .append( ">").append(getMessage("client.button.fill"))
+                        .append("</button></form></td>");
 
-                tableBuilder.append("<td><form name=fillBill action=/fillClientBill method=post>");
-                tableBuilder.append(csrfToken());
-                tableBuilder.append("<p>" + getMessage("client.label.moneyName") +
-                        ": <input size=10 type=number step=0.01 name=moneyCount /></p>" +
-                        "<button name=billId value=" +
-                        bill.getId() + ">" + getMessage("client.button.fill") +
-                        "</button></form></td>" +
-                        // next form
-                        "<td><form name=sentMoney action=/sentMoney method=post>");
-                tableBuilder.append(csrfToken());
-                tableBuilder.append("<input type=hidden name=nativeCardId" +
-                "	value=" + card.getId() + " /><p>" +
-                getMessage("client.label.cardName") + ": <input size=6 type=text name=cardName /></p><p>" +
-                getMessage("client.label.password") + ": <input size=6 type=password name=passWord /></p><p>" +
-                getMessage("client.label.moneyName") + ": <input size=10 type=number step=0.01 min = 0.01" +
-                " name=moneyCount /></p><p><button name=billId value=" + bill.getId() + ">" +
-                getMessage("client.button.sent") + "</button></p></form></td>");
+                tableBuilder.append("<td><form name=sentMoney action=/sentMoney method=post>")
+                        .append(csrfToken())
+                        .append("<input type=hidden name=nativeCardId").append(" value=")
+                        .append(card.getId()).append(" /><p>")
+                        .append(getMessage("client.label.cardName"))
+                        .append(": <input size=6 type=text name=cardName /></p><p>")
+                        .append(getMessage("client.label.password"))
+                        .append(": <input size=6 type=password name=passWord /></p><p>")
+                        .append(getMessage("client.label.moneyName"))
+                        .append(": <input size=10 type=number step=0.01 min = 0.01")
+                        .append(" name=moneyCount /></p><p><button name=billId value=")
+                        .append( bill.getId()).append( ">").append(getMessage("client.button.sent"))
+                        .append( "</button></p></form></td>");
                 i++;
                 if ((i > 0) && (i != bill.getCards().size())) {
                     tableBuilder.append("</tr>");
@@ -126,11 +132,12 @@ public class ClientTable extends RequestContextAwareTag {
      * @return if csrf not null return hidden input with csrf token if also empty line
      */
     private String csrfToken() {
-        if (csrf != null) {
-            return "<input type=hidden name=" + csrf.getParameterName()
-                    + " value=" + csrf.getToken() + " />";
+        if (csrf != null && csrfInput.isEmpty()) {
+            csrfInput = "<input type=hidden name=" +
+                    csrf.getParameterName() + " value=" +
+                    csrf.getToken() + " />";
         }
-        return "";
+        return csrfInput;
     }
 
     /**

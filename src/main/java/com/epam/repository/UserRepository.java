@@ -24,7 +24,7 @@ public interface UserRepository {
     /**
      * Find a user by id
      * @param userId value of the user id
-     * @return
+     * @return the user if found in database or null if not
      */
     User findById(final int userId);
 

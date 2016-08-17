@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by fg on 7/24/2016.
+ * Realisation of bill DAO
  */
 @Repository
 public class BillRepositoryImp extends AbstractRepository<Bill> implements BillRepository {

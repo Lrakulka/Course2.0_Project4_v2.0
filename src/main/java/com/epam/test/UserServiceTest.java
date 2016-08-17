@@ -22,8 +22,12 @@ import static junit.framework.TestCase.assertTrue;
 @ContextConfiguration(classes = {TestConfig.class})
 public class UserServiceTest {
 
+    private UserService userService;
+
     @Autowired
-    UserService userService;
+    public void setUserServiceTest(UserService userService) {
+        this.userService = userService;
+    }
 
     @Test
     public void findByEmail() {

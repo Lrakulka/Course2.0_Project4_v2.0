@@ -25,12 +25,21 @@ import static junit.framework.TestCase.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
 public class BillServiceTest {
-    @Autowired
+
     private BillService billService;
-    @Autowired
     private UserService userService;
 
-    @Test 
+    @Autowired
+    void setBillService(BillService billService) {
+        this.billService = billService;
+    }
+
+    @Autowired
+    void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Test
     public void blockBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
         billService.blockBill(bill.getId());
