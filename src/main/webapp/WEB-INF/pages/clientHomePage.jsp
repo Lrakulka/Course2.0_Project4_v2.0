@@ -30,7 +30,7 @@
 			<div class="error"><spring:message code="client.label.msgPass" /></div>
 		</c:if>
 		<c:if test="${not empty param.msgMon}">
-			<div class="error"><spring:message code="client.label.msgMoney" /></div>
+			<div class="error"><spring:message code="client.label.msgError" /></div>
 		</c:if>
         <c:if test="${not empty param.msgBillBlocked}">
             <div class="error"><spring:message code="client.label.msgBillBlocked" /></div>

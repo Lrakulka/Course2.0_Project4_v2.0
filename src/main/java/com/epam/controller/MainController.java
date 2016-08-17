@@ -186,6 +186,11 @@ public class MainController {
         LOGGER.debug(principal + " fill client bill");
         ModelAndView modelAndView = new ModelAndView("redirect:/client");
         Bill bill = billService.checkOwnerBill(principal.getName(), billId);
+        if (!bill.getActive()) {
+            LOGGER.warn(principal + " Your bill is blocked");
+            modelAndView.addObject("msgBillBlocked", "Your bill is blocked");
+            return modelAndView;
+        }
         if (bill == null || !billService.fillBill(bill.getId(), money)) {
             modelAndView.addObject("errMsg", "Impossible operation");
         }
@@ -234,8 +239,8 @@ public class MainController {
             return modelAndView;
         }
         if (!billService.makePayment(billId, exceptCard.getBill().getId(), payment)) {
-            LOGGER.warn(principal + " Not enough money");
-            modelAndView.addObject("msgMon", "Not enough money");
+            LOGGER.warn(principal + " Operation error");
+            modelAndView.addObject("msgMon", "Operation error");
         }
         return modelAndView;
     }

@@ -75,8 +75,10 @@ public class ClientTable extends RequestContextAwareTag {
                 tableBuilder
                         .append("<td><form name=ClientTable action=/actionWithClientCard method=post>")
                         .append(csrfToken())
-                        .append("<button name=actionAndCardId").append(" value=")
-                        .append( card.getId()).append(card.getActive()
+                        .append("<button name=actionAndCardId")
+                        .append(!bill.getActive() ? " disabled" : " ")
+                        .append(" value=").append(card.getId())
+                        .append(card.getActive()
                             ? "+block>" + getMessage("client.button.block")
                             : "+unblock>" + getMessage("button.unblock"))
                         .append( "</button>").append("</form></td>");
@@ -84,8 +86,10 @@ public class ClientTable extends RequestContextAwareTag {
                 tableBuilder.append(
                         "<td><form name=ClientTable action=/actionWithClientCard method=post>")
                         .append(csrfToken())
-                        .append("<button name=actionAndCardId").append(" value=")
-                        .append(card.getId()).append(card.getDeleted()
+                        .append("<button name=actionAndCardId")
+                        .append(!bill.getActive() ? " disabled " : "")
+                        .append("value=").append(card.getId())
+                        .append(card.getDeleted()
                                     ? "+undelete>" + getMessage("button.undelete")
                                     : "+delete>" + getMessage("button.delete"))
                         .append( "</button>").append("</form></td>");
@@ -95,6 +99,7 @@ public class ClientTable extends RequestContextAwareTag {
                         .append("<p>").append( getMessage("client.label.moneyName"))
                         .append(": <input size=10 type=number step=0.01 name=moneyCount /></p>")
                         .append("<button name=billId value=").append(bill.getId())
+                        .append(!bill.getActive() ? " disabled " : "")
                         .append( ">").append(getMessage("client.button.fill"))
                         .append("</button></form></td>");
 
@@ -109,7 +114,8 @@ public class ClientTable extends RequestContextAwareTag {
                         .append(getMessage("client.label.moneyName"))
                         .append(": <input size=10 type=number step=0.01 min = 0.01")
                         .append(" name=moneyCount /></p><p><button name=billId value=")
-                        .append( bill.getId()).append( ">").append(getMessage("client.button.sent"))
+                        .append( bill.getId()).append(!bill.getActive() ? " disabled " : " ")
+                        .append( ">").append(getMessage("client.button.sent"))
                         .append( "</button></p></form></td>");
                 i++;
                 if ((i > 0) && (i != bill.getCards().size())) {
