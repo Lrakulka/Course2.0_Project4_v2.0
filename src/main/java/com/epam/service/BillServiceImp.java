@@ -149,6 +149,7 @@ public class BillServiceImp implements BillService {
             billRepository.update(exceptBill);
             return true;
         }
+        LOGGER.warn("payment failed");
         return false;
     }
 
