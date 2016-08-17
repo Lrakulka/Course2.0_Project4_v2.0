@@ -12,7 +12,8 @@
         </style>
     </head>
     <body>
-        <spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
+        <spring:message code="language.text" /> : <a href="?lang=en">English</a> |
+        <a href="?lang=ua">Українська</a>
         <h2><spring:message code="welcome.label.text" /></h2>
         <h3><spring:message code="welcome.label.available" /></h3>
         <p><a href="/admin"><spring:message code="welcome.label.admin_page" /></a></p>

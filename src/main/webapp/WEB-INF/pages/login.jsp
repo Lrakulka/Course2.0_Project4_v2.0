@@ -13,7 +13,8 @@
 	</head>
 
 	<body onload='document.loginForm.username.focus();'>
-		<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
+		<spring:message code="language.text" /> : <a href="?lang=en">English</a> |
+        <a href="?lang=ua">Українська</a>
 
 		<div id="login-box">
 
