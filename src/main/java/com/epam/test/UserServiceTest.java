@@ -49,7 +49,8 @@ public class UserServiceTest {
 
     @Test
     public void getAllClients() {
-        assertTrue(userService.getAllClients().size() == USER_LIST.size());
+        assertTrue(userService
+                .getAllClients().size() == USER_LIST.size());
     }
 
     @Test

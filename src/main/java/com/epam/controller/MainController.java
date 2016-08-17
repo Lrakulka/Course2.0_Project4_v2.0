@@ -148,7 +148,8 @@ public class MainController {
      * @return model of client room
      */
     @RequestMapping(value = "/client**", method = RequestMethod.GET)
-    public ModelAndView clientHomePage(ModelAndView modelAndView, Principal principal) throws Exception {
+    public ModelAndView clientHomePage(ModelAndView modelAndView,
+                                       Principal principal) throws Exception {
         LOGGER.debug(principal + " client page");
         User user = userService.findByEmail(principal.getName());
         modelAndView.setViewName("clientHomePage");

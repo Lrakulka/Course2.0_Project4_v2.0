@@ -41,34 +41,38 @@ public class BillServiceTest {
 
     @Test
     public void blockBill() {
-        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
+        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1];
         billService.blockBill(bill.getId());
-        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
-                .toArray()[1]).getActive());
+        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1]).getActive());
     }
 
     @Test 
     public void unBlockBill() {
-        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
+        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1];
         billService.unBlockBill(bill.getId());
-        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
-                .toArray()[1]).getActive());
+        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1]).getActive());
     }
 
     @Test 
     public void restoreBill() {
-        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
+        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1];
         billService.restoreBill(bill.getId());
-        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
-                .toArray()[1]).getDeleted());
+        assertFalse(((Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1]).getDeleted());
     }
 
     @Test 
     public void deleteBill() {
-        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills().toArray()[1];
+        Bill bill = (Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1];
         billService.deleteBill(bill.getId());
-        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail()).getBills()
-                .toArray()[1]).getDeleted());
+        assertTrue(((Bill) userService.findByEmail(USER_SASHA.getEmail())
+                .getBills().toArray()[1]).getDeleted());
     }
 
     @Test 
@@ -80,27 +84,30 @@ public class BillServiceTest {
 
     @Test 
     public void fillBill() {
-        Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills().toArray()[0];
+        Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail())
+                .getBills().toArray()[0];
         double score = bill.getScore() + 100;
         billService.fillBill(bill.getId(), 100d);
-        assertTrue(((Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills()
-                .toArray()[0]).getScore().equals(score));
+        assertTrue(((Bill) userService.findByEmail(USER_SASHA2.getEmail())
+                .getBills().toArray()[0]).getScore().equals(score));
     }
 
     @Test 
     public void getClientBill() {
         User user = userService.findByEmail(USER_SASHA.getEmail());
-        Bill bill = billService.getClientBill(user, ((Bill) user.getBills().toArray()[0]).getId());
+        Bill bill = billService.getClientBill(user, ((Bill) user.getBills()
+                .toArray()[0]).getId());
         assertNotNull(bill);
     }
 
     @Test 
     public void makePayment() {
-        Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills().toArray()[0];
+        Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail())
+                .getBills().toArray()[0];
         Double p = bill.getScore();
         billService.makePayment(bill.getId(), ((Card) bill.getCards()
                 .toArray()[0]).getBill().getId(), 1d);
-        assertTrue(((Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills()
-                .toArray()[0]).getScore().equals(p));
+        assertTrue(((Bill) userService.findByEmail(USER_SASHA2.getEmail())
+                .getBills().toArray()[0]).getScore().equals(p));
     }
 }

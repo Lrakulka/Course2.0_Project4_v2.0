@@ -33,8 +33,10 @@ public class BillServiceImp implements BillService {
     @Override
     public void doAction(String actionAndBillId) {
         LOGGER.warn("actionAndBillId=" + actionAndBillId);
-        Integer billId = Integer.valueOf(actionAndBillId.substring(0, actionAndBillId.indexOf("+")));
-        actionAndBillId = actionAndBillId.substring(actionAndBillId.indexOf("+") + 1, actionAndBillId.length());
+        Integer billId = Integer.valueOf(actionAndBillId.substring(0,
+                actionAndBillId.indexOf("+")));
+        actionAndBillId = actionAndBillId.substring(actionAndBillId.indexOf("+") + 1,
+                actionAndBillId.length());
         switch (actionAndBillId) {
             case DELETE : deleteBill(billId);
                     break;

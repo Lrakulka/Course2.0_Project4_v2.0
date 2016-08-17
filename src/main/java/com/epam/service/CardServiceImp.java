@@ -37,8 +37,10 @@ public class CardServiceImp implements CardService {
     @Override
     public void doAction(String actionAndCardId, User owner) {
         LOGGER.debug("actionAndCardId=" + actionAndCardId);
-        Integer cardId = Integer.valueOf(actionAndCardId.substring(0, actionAndCardId.indexOf("+")));
-        actionAndCardId = actionAndCardId.substring(actionAndCardId.indexOf("+") + 1, actionAndCardId.length());
+        Integer cardId = Integer.valueOf(actionAndCardId.substring(0,
+                actionAndCardId.indexOf("+")));
+        actionAndCardId = actionAndCardId.substring(actionAndCardId
+                .indexOf("+") + 1, actionAndCardId.length());
         if (checkOwner(owner, cardId) != null) {
             switch (actionAndCardId) {
                 case DELETE:
@@ -54,7 +56,8 @@ public class CardServiceImp implements CardService {
                     unBlockCard(cardId);
             }
         } else {
-            LOGGER.warn("actionAndCardId=" + actionAndCardId + " user is not a owner of card");
+            LOGGER.warn("actionAndCardId=" + actionAndCardId
+                    + " user is not a owner of card");
         }
     }
 
