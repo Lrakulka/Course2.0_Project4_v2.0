@@ -73,7 +73,7 @@ public class BillServiceTest {
     public void fillBill() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills().toArray()[0];
         double score = bill.getScore() + 100;
-        billService.fillBill(USER_SASHA2.getEmail(), bill.getId(), 100d);
+        billService.fillBill(bill.getId(), 100d);
         assertTrue(((Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills()
                 .toArray()[0]).getScore().equals(score));
     }
@@ -89,7 +89,8 @@ public class BillServiceTest {
     public void makePayment() {
         Bill bill = (Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills().toArray()[0];
         Double p = bill.getScore();
-        billService.makePayment(bill, ((Card) bill.getCards().toArray()[0]), 1d);
+        billService.makePayment(bill.getId(), ((Card) bill.getCards()
+                .toArray()[0]).getBill().getId(), 1d);
         assertTrue(((Bill) userService.findByEmail(USER_SASHA2.getEmail()).getBills()
                 .toArray()[0]).getScore().equals(p));
     }

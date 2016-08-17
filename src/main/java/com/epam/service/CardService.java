@@ -26,25 +26,25 @@ public interface CardService {
      * Block card by its id
      * @param cardId value of id
      */
-    void blockCard(int cardId);
+    void blockCard(Integer cardId);
 
     /**
      * Activate a card
      * @param cardId value of card id
      */
-    void unBlockCard(int cardId);
+    void unBlockCard(Integer cardId);
 
     /**
      * Restore a card
      * @param cardId value of card id
      */
-    void restoreCard(int cardId);
+    void restoreCard(Integer cardId);
 
     /**
      * Delete a card
      * @param cardId value of card id
      */
-    void deleteCard(int cardId);
+    void deleteCard(Integer cardId);
 
     /**
      * Find a card by its name

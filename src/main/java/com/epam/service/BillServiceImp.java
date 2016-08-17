@@ -33,7 +33,7 @@ public class BillServiceImp implements BillService {
     @Override
     public void doAction(String actionAndBillId) {
         LOGGER.warn("actionAndBillId=" + actionAndBillId);
-        int billId = Integer.valueOf(actionAndBillId.substring(0, actionAndBillId.indexOf("+")));
+        Integer billId = Integer.valueOf(actionAndBillId.substring(0, actionAndBillId.indexOf("+")));
         actionAndBillId = actionAndBillId.substring(actionAndBillId.indexOf("+") + 1, actionAndBillId.length());
         switch (actionAndBillId) {
             case DELETE : deleteBill(billId);
@@ -47,7 +47,7 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public void blockBill(int billId) {
+    public void blockBill(Integer billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
             bill.setActive(false);
@@ -56,7 +56,7 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public void unBlockBill(int billId) {
+    public void unBlockBill(Integer billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
             LOGGER.warn("unBlockBill failed");
@@ -66,7 +66,7 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public void restoreBill(int billId) {
+    public void restoreBill(Integer billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
             LOGGER.warn("restoreBill failed");
@@ -76,7 +76,7 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public void deleteBill(int billId) {
+    public void deleteBill(Integer billId) {
         Bill bill = billRepository.findById(billId);
         if (bill != null) {
             LOGGER.warn("deleteBill failed");
@@ -107,10 +107,10 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public boolean fillBill(String userEmail, Integer billId, Double money) {
+    public boolean fillBill(Integer billId, Double money) {
         LOGGER.debug("Fill bill");
         Bill bill = billRepository.findById(billId);
-        if (bill != null && bill.getActive() && bill.getUser().getEmail().equals(userEmail)) {
+        if (bill != null) {
             bill.setScore(money + bill.getScore());
             billRepository.update(bill);
             return true;
@@ -130,32 +130,44 @@ public class BillServiceImp implements BillService {
     }
 
     @Override
-    public boolean checkPassword(Bill clientBill, Integer cardId, String password) {
-        LOGGER.debug("check Password");
+    public boolean makePayment(Integer clientBillId, Integer exceptBillId, Double payment) {
+        LOGGER.debug("make Payment");
+        Bill exceptBill = billRepository.findById(exceptBillId);
+        Bill clientBill = billRepository.findById(clientBillId);
+        if ((exceptBill != null) && (clientBill != null)
+                && (clientBill.getScore() >= payment) && (payment > 0)) {
+            clientBill.setScore(clientBill.getScore() - Math.abs(payment));
+            exceptBill.setScore(exceptBill.getScore() + Math.abs(payment));
+            billRepository.update(clientBill);
+            billRepository.update(exceptBill);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Bill checkOwnerBill(String ownerEmail, Integer billId) {
+        LOGGER.debug("check owner of the bill");
+        Bill bill = billRepository.findById(billId);
+        if (bill != null && bill.getUser().getActive() &&
+                bill.getUser().getEmail().equals(ownerEmail)) {
+            return bill;
+        }
+        LOGGER.warn("bill is not belong to owner");
+        return null;
+    }
+
+    @Override
+    public boolean checkCardPass(Bill clientBill, Integer cardId, String password) {
+        LOGGER.debug("check card password");
         Card card;
         try {
             card = clientBill.getCards().stream().filter(c -> c.getId()
                     .equals(cardId)).findFirst().get();
         } catch (NoSuchElementException e) {
-            LOGGER.warn("check Password failed");
+            LOGGER.warn("password check failed");
             return false;
         }
         return card.getPassword().equals(passwordEncoder.encode(password));
-    }
-
-    @Override
-    public void makePayment(Bill clientBill, Card exceptCard, Double payment) {
-        LOGGER.debug("make Payment");
-        Bill exceptBill = exceptCard.getBill();
-        clientBill.setScore(clientBill.getScore() - Math.abs(payment));
-        exceptBill.setScore(exceptBill.getScore() + Math.abs(payment));
-        billRepository.update(clientBill);
-        billRepository.update(exceptBill);
-    }
-
-    @Override
-    public void blockBill(@NotNull Bill bill) {
-        bill.setActive(false);
-        billRepository.update(bill);
     }
 }

@@ -30,7 +30,7 @@ public class CardServiceImp implements CardService {
     @Override
     public void doAction(String actionAndCardId, User owner) {
         LOGGER.debug("actionAndCardId=" + actionAndCardId);
-        int cardId = Integer.valueOf(actionAndCardId.substring(0, actionAndCardId.indexOf("+")));
+        Integer cardId = Integer.valueOf(actionAndCardId.substring(0, actionAndCardId.indexOf("+")));
         actionAndCardId = actionAndCardId.substring(actionAndCardId.indexOf("+") + 1, actionAndCardId.length());
         if (checkOwner(owner, cardId) != null) {
             switch (actionAndCardId) {
@@ -52,7 +52,7 @@ public class CardServiceImp implements CardService {
     }
 
     @Override
-    public void blockCard(int cardId) {
+    public void blockCard(Integer cardId) {
         LOGGER.debug("block Card");
         Card card = cardRepository.findById(cardId);
         card.setActive(false);
@@ -60,7 +60,7 @@ public class CardServiceImp implements CardService {
     }
 
     @Override
-    public void unBlockCard(int cardId) {
+    public void unBlockCard(Integer cardId) {
         LOGGER.debug("unBlock Card");
         Card card = cardRepository.findById(cardId);
         card.setActive(true);
@@ -68,7 +68,7 @@ public class CardServiceImp implements CardService {
     }
 
     @Override
-    public void restoreCard(int cardId) {
+    public void restoreCard(Integer cardId) {
         LOGGER.debug("restore Card");
         Card card = cardRepository.findById(cardId);
         card.setDeleted(false);
@@ -76,7 +76,7 @@ public class CardServiceImp implements CardService {
     }
 
     @Override
-    public void deleteCard(int cardId) {
+    public void deleteCard(Integer cardId) {
         LOGGER.debug("delete Card");
         Card card = cardRepository.findById(cardId);
         card.setDeleted(true);

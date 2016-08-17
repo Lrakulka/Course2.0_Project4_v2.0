@@ -4,6 +4,7 @@ import com.epam.model.Bill;
 import com.epam.model.Card;
 import com.epam.model.User;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -17,12 +18,6 @@ public interface BillService {
     String UN_BLOCK = "unblock";
 
     /**
-     * Block bill by its id
-     * @param billId value of id
-     */
-    void blockBill(int billId);
-
-    /**
      * Make next action with a bill.
      * @param actionAndBillId :
      * @see #DELETE - delete the bill
@@ -33,22 +28,28 @@ public interface BillService {
     void doAction(String actionAndBillId);
 
     /**
+     * Block bill by its id
+     * @param billId id of the bill
+     */
+    void blockBill(Integer billId);
+
+    /**
      * Activate a bill
      * @param billId value of bill id
      */
-    void unBlockBill(int billId);
+    void unBlockBill(Integer billId);
 
     /**
      * Restore a bill
      * @param billId value of bill id
      */
-    void restoreBill(int billId);
+    void restoreBill(Integer billId);
 
     /**
      * Delete a bill
      * @param billId value of bill id
      */
-    void deleteBill(int billId);
+    void deleteBill(Integer billId);
 
     /**
      * Return all bills of the user
@@ -59,12 +60,11 @@ public interface BillService {
 
     /**
      * Fill a bill with money
-     * @param userEmail - email of the bill owner
      * @param billId - id of the bill
      * @param money which need to add to the bill
      * @return true if operation successful, false if not
      */
-    boolean fillBill(String userEmail, Integer billId, Double money);
+    boolean fillBill(Integer billId, Double money);
 
     /**
      * Return a bill of the user
@@ -81,15 +81,22 @@ public interface BillService {
      * @param password - the card password
      * @return
      */
-    boolean checkPassword(Bill clientBill, Integer nativeCardId, String password);
+    boolean checkCardPass(Bill clientBill, Integer nativeCardId, String password);
 
     /**
      * Sent money to from one bill to another
-     * @param clientBill - the bill from which the money go
-     * @param exceptCard - the card of bill which except money
+     * @param clientBillId - id of the bill from which the money go
+     * @param exceptBillId - if of the bill which except money
      * @param payment - money which need to send
+     * return
      */
-    void makePayment(Bill clientBill, Card exceptCard, Double payment);
+    boolean makePayment(Integer clientBillId, Integer exceptBillId, Double payment);
 
-    void blockBill(Bill bill);
+    /**
+     * Check if the bill is the owner property
+     * @param ownerEmail email of the owner
+     * @param billId id of the bill
+     * @return the bill if the bill id property of owner
+     */
+    Bill checkOwnerBill(String ownerEmail, Integer billId);
 }
