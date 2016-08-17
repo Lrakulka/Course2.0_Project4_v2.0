@@ -9,7 +9,8 @@
 	<title><spring:message code="403.label.title" /></title>
 </head>
 <body>
-	<spring:message code="language.text" /> : <a href="?lang=en">English</a> | <a href="?lang=ua">Українська</a>
+	<spring:message code="language.text" /> : <a href="?lang=en">English</a> |
+	<a href="?lang=ua">Українська</a>
 	<h1><spring:message code="403.label.title" /></h1>
 
 	<c:choose>
@@ -17,7 +18,8 @@
 			<h2><spring:message code="403.label.msg" /></h2>
 		</c:when>
 		<c:otherwise>
-			<h2><spring:message code="403.label.username" /> : ${username} <br/><spring:message code="403.label.msgu" /></h2>
+			<h2><spring:message code="403.label.username" /> : ${sessionScope.get("userName")}
+				<br/><spring:message code="403.label.msgu" /></h2>
 		</c:otherwise>
 	</c:choose>
 
