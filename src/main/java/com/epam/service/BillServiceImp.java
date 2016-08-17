@@ -170,7 +170,7 @@ public class BillServiceImp implements BillService {
         LOGGER.debug("check card password");
         Optional<Card> cardOptional = clientBill.getCards().stream().filter(c -> c.getId()
                     .equals(cardId)).findFirst();
-        return cardOptional.isPresent() && cardOptional.get()
-                .getPassword().equals(passwordEncoder.encode(password));
+        return cardOptional.isPresent() && passwordEncoder.matches(password, cardOptional.get()
+                .getPassword());
     }
 }

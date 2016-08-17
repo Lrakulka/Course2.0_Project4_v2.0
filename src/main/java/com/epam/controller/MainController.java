@@ -234,7 +234,7 @@ public class MainController {
             modelAndView.addObject("msgBillBlocked", "Your bill is blocked");
             return modelAndView;
         }
-        if (billService.checkCardPass(clientBill, nativeCardId, password)) {
+        if (!billService.checkCardPass(clientBill, nativeCardId, password)) {
             LOGGER.warn(principal + " Password not correct");
             modelAndView.addObject("msgPass", "Password error");
             return modelAndView;
