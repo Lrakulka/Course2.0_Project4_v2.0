@@ -6,6 +6,7 @@ import com.epam.model.User;
 import com.epam.repository.BillRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,14 @@ public class BillServiceImp implements BillService {
 
     private BillRepository billRepository;
     private PasswordEncoder passwordEncoder;
+    private Double minStep;
 
     @Autowired
-    public BillServiceImp(BillRepository billRepository, PasswordEncoder passwordEncoder) {
+    public BillServiceImp(BillRepository billRepository,
+                          PasswordEncoder passwordEncoder, Environment environment) {
         this.billRepository = billRepository;
         this.passwordEncoder = passwordEncoder;
+        this.minStep = Double.valueOf(environment.getRequiredProperty("min.step"));
     }
 
     @Override
@@ -115,7 +119,8 @@ public class BillServiceImp implements BillService {
     public boolean fillBill(Integer billId, Double money) {
         LOGGER.debug("Fill bill");
         Bill bill = billRepository.findById(billId);
-        if (bill != null && bill.getActive() && !bill.getDeleted()) {
+        if (bill != null && bill.getActive()
+                && !bill.getDeleted() && (money >= minStep)) {
             bill.setScore(money + bill.getScore());
             billRepository.update(bill);
             return true;
@@ -140,7 +145,7 @@ public class BillServiceImp implements BillService {
         Bill exceptBill = billRepository.findById(exceptBillId);
         Bill clientBill = billRepository.findById(clientBillId);
         if ((exceptBill != null) && (clientBill != null)
-                && (clientBill.getScore() >= payment) && (payment > 0)
+                && (clientBill.getScore() >= payment) && (payment >= minStep)
                 && exceptBill.getActive() && clientBill.getActive()
                 && !exceptBill.getDeleted() && !exceptBill.getDeleted()) {
             clientBill.setScore(clientBill.getScore() - Math.abs(payment));

@@ -15,8 +15,8 @@
         <h2><spring:message code="welcome.label.text" /></h2>
         <h3><spring:message code="welcome.label.author" /></h3>
         <p>Tomcat9, JSP/JSTL, Custom tag, Spring MVC(Annotation), Spring Security,
-            Hibernate, C3P0, MySQL, Log4j, i18n, JavaScript, CSS, Maven,
-            Lombok, Git, JUnit, Mockito</p>
+            Hibernate, C3P0, MySQL, Log4j, i18n, CSS, Maven,
+            Lombok, Git, JUnit, HTML5</p>
         <img src=${diagram}>
         <h3><spring:message code="welcome.label.available" /></h3>
         <p><a href="/admin"><spring:message code="welcome.label.admin_page" /></a></p>
