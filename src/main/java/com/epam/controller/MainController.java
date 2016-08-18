@@ -187,12 +187,17 @@ public class MainController {
         LOGGER.debug(principal + " fill client bill");
         ModelAndView modelAndView = new ModelAndView("redirect:/client");
         Bill bill = billService.checkOwnerBill(principal.getName(), billId);
+        if (bill == null) {
+            LOGGER.warn(principal + " You have no such bill");
+            modelAndView.addObject("msgBill", "You have no such bill");
+            return modelAndView;
+        }
         if (!bill.getActive()) {
             LOGGER.warn(principal + " Your bill is blocked");
             modelAndView.addObject("msgBillBlocked", "Your bill is blocked");
             return modelAndView;
         }
-        if (bill == null || !billService.fillBill(bill.getId(), money)) {
+        if (!billService.fillBill(bill.getId(), money)) {
             modelAndView.addObject("errMsg", "Impossible operation");
         }
         return modelAndView;
