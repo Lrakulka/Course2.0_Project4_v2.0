@@ -103,7 +103,8 @@ public class ClientTable extends RequestContextAwareTag {
                         .append(" min=").append(getMessage("min.step"))
                         .append(" /></p>")
                         .append("<button name=billId value=").append(bill.getId())
-                        .append(!bill.getActive() ? " disabled " : "")
+                        .append((!bill.getActive() || !card.getActive())
+                                ? " disabled " : "")
                         .append( ">").append(getMessage("client.button.fill"))
                         .append("</button></form></td>");
 
@@ -121,7 +122,8 @@ public class ClientTable extends RequestContextAwareTag {
                         .append(" min=").append(getMessage("min.step"))
                         .append(" /></p>")
                         .append("<p><button name=billId value=")
-                        .append(bill.getId()).append(!bill.getActive() ? " disabled " : " ")
+                        .append(bill.getId()).append((!bill.getActive() || !card.getActive())
+                                ? " disabled " : " ")
                         .append( ">").append(getMessage("client.button.sent"))
                         .append( "</button></p></form></td>");
                 i++;
