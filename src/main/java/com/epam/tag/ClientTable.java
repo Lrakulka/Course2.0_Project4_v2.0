@@ -76,7 +76,7 @@ public class ClientTable extends RequestContextAwareTag {
                         .append("<td><form name=ClientTable")
                         .append(" action=/actionWithClientCard method=post>")
                         .append(csrfToken())
-                        .append("<button name=actionAndCardId")
+                        .append("<button name=actionAndCardId ")
                         .append(!bill.getActive() ? " disabled" : " ")
                         .append(" value=").append(card.getId())
                         .append(card.getActive()
@@ -87,7 +87,7 @@ public class ClientTable extends RequestContextAwareTag {
                 tableBuilder.append(
                         "<td><form name=ClientTable action=/actionWithClientCard method=post>")
                         .append(csrfToken())
-                        .append("<button name=actionAndCardId")
+                        .append("<button name=actionAndCardId ")
                         .append(!bill.getActive() ? " disabled " : "")
                         .append("value=").append(card.getId())
                         .append(card.getDeleted()
