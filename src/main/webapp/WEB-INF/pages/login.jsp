@@ -7,9 +7,8 @@
 <html>
 	<head>
 		<title><spring:message code="login.label.title" /></title>
-		<style>
-			<%@ include file="../css/styles.css" %>
-		</style>
+		<spring:url value="/resources/css/styles.css" var="coreCss" />
+		<link href="${coreCss}" type="text/css" rel="stylesheet" />
 	</head>
 
 	<body onload='document.loginForm.username.focus();'>

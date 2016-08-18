@@ -7,9 +7,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><spring:message code="client.label.title" /></title>
-		<style>
-			<%@ include file="../css/styles.css" %>
-		</style>
+		<spring:url value="/resources/css/styles.css" var="coreCss" />
+		<link href="${coreCss}" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
 		<spring:message code="language.text" /> :

@@ -41,7 +41,7 @@ public class MainController {
      * Default page.
      * @return model of welcome page
      */
-    @RequestMapping(value = "/**")
+    @RequestMapping(value = {"/", "/welcome**"})
     public String welcome() {
         return "welcome";
     }
