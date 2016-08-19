@@ -12,7 +12,7 @@
     <!-- Table of all clients-->
     <tag>
         <name>clientsTable</name>
-        <tag-class>com.epam.tag.ClientsTable</tag-class>
+        <tag-class>com.course.tag.ClientsTable</tag-class>
         <body-content>empty</body-content>
         <description>Custom tag displays a table of client information</description>
         <attribute>
@@ -31,7 +31,7 @@
     <!-- Table of client-->
     <tag>
         <name>clientTable</name>
-        <tag-class>com.epam.tag.ClientTable</tag-class>
+        <tag-class>com.course.tag.ClientTable</tag-class>
         <body-content>empty</body-content>
         <description>Custom tag displays a table of client cards information</description>
         <attribute>
