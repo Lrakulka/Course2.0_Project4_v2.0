@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -18,7 +19,7 @@ import java.util.*;
  * Implementation of BillService
  */
 @Service
-@Transactional
+@Transactional(isolation = Isolation.SERIALIZABLE)
 public class BillServiceImp implements BillService {
     private static final Logger LOGGER = Logger.getLogger(BillServiceImp.class);
 
