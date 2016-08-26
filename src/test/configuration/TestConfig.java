@@ -47,19 +47,16 @@ public class TestConfig extends DatabaseConfiguration {
     }
 
     @Bean
-    @Autowired
     UserService userService(UserRepository userRepository) {
         return new UserServiceImp(userRepository);
     }
 
     @Bean
-    @Autowired
     CardService cardService(CardRepository cardRepository) {
         return new CardServiceImp(cardRepository);
     }
 
     @Bean
-    @Autowired
     BillService billService(BillRepository billRepository) {
         return new BillServiceImp(billRepository, passwordEncoder(), environment);
     }
