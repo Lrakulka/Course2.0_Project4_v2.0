@@ -17,6 +17,15 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 
 /**
+ * TODO: Use database functional for calculation
+ * TODO: Divided controller into smaller controllers
+ * TODO: Figured out isolation levels of Spring transactions
+ * TODO: Figured out about Hibernate primary key strategies
+ * TODO: Figured out about request types
+ * TODO: Create authorization pages for users
+ */
+
+/**
  * Created by fg on 7/27/2016.
  * Controller of model and view
  */
