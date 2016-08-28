@@ -19,7 +19,15 @@ import java.util.*;
  * Implementation of BillService
  */
 @Service
-@Transactional(isolation = Isolation.SERIALIZABLE)
+/**
+ * I choose read_committed isolation level because all transaction begin from
+ * reading from database that is why its save and more
+ * performance save than Isolation and Read_Committed levels
+ *
+ * P.S. Default isolation level depends on database type
+ * for MySQL its REPEATABLE_READ for others its READ_COMMITTED
+ */
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class BillServiceImp implements BillService {
     private static final Logger LOGGER = Logger.getLogger(BillServiceImp.class);
 
